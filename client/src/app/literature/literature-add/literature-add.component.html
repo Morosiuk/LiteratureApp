@@ -1,0 +1,29 @@
+<form #literatureForm="ngForm" (ngSubmit)="add()" autocomplete="off">
+  <h2 class="text-center text-primary">Add Literature Item</h2>
+  <hr>
+  <div class="form-group">
+    <input type="text" class="form-control" name="name" 
+      [(ngModel)]="model.name" placeholder="Title">
+  </div>
+  <div class="form-group">
+    <input type="text" class="form-control" name="fullName" 
+      [(ngModel)]="model.fullName" placeholder="Description">
+  </div>
+  <div class="form-group">
+    <input type="text" class="form-control" name="itemId" 
+      [(ngModel)]="model.itemId" placeholder="Item ID">
+  </div>
+  <div class="form-group">
+    <input type="text" class="form-control" name="Symbol" 
+      [(ngModel)]="model.symbol" placeholder="Symbol">
+  </div>
+  <div class="form-group">
+    <input type="text" class="form-control" name="Format" 
+      [(ngModel)]="model.format" placeholder="Format">
+  </div>
+
+  <div class="form-group text-center">
+    <button class="btn btn-success mr-2" type="submit">Add</button>
+    <button class="btn btn-default mr-2" (click)="cancel()" type="button">Cancel</button>
+  </div>
+</form>

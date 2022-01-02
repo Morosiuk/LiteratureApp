@@ -3,11 +3,17 @@
     <a class="navbar-brand" routerLink='/'>Home</a>
 
     <div class="collapse navbar-collapse" id="navbar01">
+
+      <div class="dropdown" dropdown>
+        <a class="dropdown-toggle text-light" dropdownToggle>Literature</a>
+        <div class="dropdown-menu mt-3" *dropdownMenu>
+          <a class="dropdown-item" routerLink='/literature'>View</a>
+          <a class="dropdown-item"routerLink='/literature/add'>Add Item</a>
+        </div>
+      </div>
+
       <ul class="navbar-nav me-auto">
         <ng-container *ngIf="accountService.currentUser$ | async">
-          <li class="nav-item">
-            <a class="nav-link" routerLink='/literature' routerLinkActive='active'>Literature</a>
-          </li>
           <li class="nav-item">
             <a class="nav-link" routerLink='/request' routerLinkActive='active'>Requests</a>
           </li>
