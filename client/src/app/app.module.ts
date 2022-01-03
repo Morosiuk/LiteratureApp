@@ -25,6 +25,7 @@ import { ServerErrorComponent } from './errors/server-error/server-error.compone
 import { LiteratureAddComponent } from './literature/literature-add/literature-add.component';
 import { UserListComponent } from './users/user-list/user-list.component';
 import { UserInfoComponent } from './users/user-info/user-info.component';
+import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { UserInfoComponent } from './users/user-info/user-info.component';
     SharedModule
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })
