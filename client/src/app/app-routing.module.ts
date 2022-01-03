@@ -16,6 +16,7 @@ import { CongregationItemComponent } from './congregations/congregation-item/con
 import { CongregationComponent } from './congregations/congregation/congregation.component';
 import { DeliveryComponent } from './deliveries/delivery/delivery.component';
 import { DeliveryItemComponent } from './deliveries/delivery-item/delivery-item.component';
+import { UserListComponent } from './users/user-list/user-list.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -27,12 +28,13 @@ const routes: Routes = [
       {path: 'literature', component: LiteratureComponent},
       {path: 'literature/add', component: LiteratureAddComponent},
       {path: 'literature/:id', component: LiteratureItemComponent},
-      {path: 'request', component: RequestComponent},
-      {path: 'request/:id', component: RequestItemComponent},
-      {path: 'congregation', component: CongregationComponent},
-      {path: 'congregation/:id', component: CongregationItemComponent},
+      {path: 'requests', component: RequestComponent},
+      {path: 'requests/:id', component: RequestItemComponent},
+      {path: 'congregations', component: CongregationComponent},
+      {path: 'congregations/:id', component: CongregationItemComponent},
       {path: 'delivery', component: DeliveryComponent},
-      {path: 'delivery/:id', component: DeliveryItemComponent}
+      {path: 'delivery/:id', component: DeliveryItemComponent},
+      {path: 'users', component: UserListComponent},
     ]
   },
   {path: 'errors', component: TestErrorsComponent},

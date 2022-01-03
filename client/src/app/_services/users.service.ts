@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { User } from '../_models/user';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -11,16 +12,17 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class LiteratureService {
+export class UsersService {
   baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 
-  getLiterature() {
-    return this.http.get(this.baseUrl + 'literature', httpOptions);
+  getUsers() {
+    return this.http.get<User[]>(this.baseUrl + 'users', httpOptions);
   }
 
-  addLiterature(model: any) {
-    return this.http.post(this.baseUrl + 'literature/add', model);    
+  getUser(username: string) {
+    return this.http.get<User>(this.baseUrl + 'users/' + username, httpOptions);
   }
+  
 }

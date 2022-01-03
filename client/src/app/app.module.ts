@@ -23,6 +23,8 @@ import { ErrorInterceptor } from './_interceptors/error.interceptor';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
 import { LiteratureAddComponent } from './literature/literature-add/literature-add.component';
+import { UserListComponent } from './users/user-list/user-list.component';
+import { UserInfoComponent } from './users/user-info/user-info.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,9 @@ import { LiteratureAddComponent } from './literature/literature-add/literature-a
     TestErrorsComponent,
     NotFoundComponent,
     ServerErrorComponent,
-    LiteratureAddComponent
+    LiteratureAddComponent,
+    UserListComponent,
+    UserInfoComponent
   ],
   imports: [
     BrowserModule,
