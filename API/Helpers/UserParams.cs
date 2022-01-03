@@ -11,6 +11,7 @@ namespace API.Helpers
       set => _pageSize = (value > MaxPageSize) ? MaxPageSize : value;
     }
 
+    public int Congregation { get; set; } = 0;
     
   }
 }

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs;
@@ -26,8 +25,18 @@ namespace API.Data
     {
       var query = _context.Users
         .ProjectTo<UserInfoDto>(_mapper.ConfigurationProvider)
-        .AsNoTracking();
+        .AsNoTracking()
+        .AsQueryable();
       
+      if (userParams.Congregation > 0)
+      {
+        //Filter on congregation
+        query = query
+          .Where(user => user.CongregationRoles
+            .Any(cr => cr.CongregationId == userParams.Congregation)
+          );
+      }
+
       return await PagedList<UserInfoDto>.CreateAsync(query, userParams.PageNumber, userParams.PageSize);
     }
 

@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
@@ -41,7 +42,10 @@ namespace API.Controllers
       return new UserDto
       {
         Username = user.UserName,
-        Token = _tokenService.CreateToken(user)
+        Token = _tokenService.CreateToken(user),
+        CongregationId = (user.CongregationRoles.Count() == 1) 
+          ? user.CongregationRoles.First().CongregationId 
+          : 0
       };
     }
 

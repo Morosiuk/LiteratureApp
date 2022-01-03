@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { PaginatedResult } from '../_models/pagination';
 import { User } from '../_models/user';
+import { UserParams } from '../_models/userParams';
 
 @Injectable({
   providedIn: 'root'
@@ -14,27 +15,40 @@ export class UsersService {
 
   constructor(private http: HttpClient) { }
 
-  getUsers(page?: number, itemsPerPage?: number) {
-    let params = new HttpParams();
+  getUser(username: string) {
+    return this.http.get<User>(this.baseUrl + 'users/' + username);
+  }
 
-    if (page !== null && itemsPerPage !== null) {
-      params = params.append('pageNumber', page.toString());
-      params = params.append('pageSize', itemsPerPage.toString());
-    }
+  getUsers(userParams: UserParams) {
+    let params = this.getPaginationHeaders(
+      userParams.pageNumber, 
+      userParams.pageSize,
+      userParams.congregation);
 
-    return this.http.get<User[]>(this.baseUrl + 'users', {observe: 'response', params}).pipe(
+    return this.getPaginatedResult<User[]>(this.baseUrl + 'users', params);
+  }
+
+  private getPaginatedResult<T>(url, params: HttpParams) {
+    const paginatedResult: PaginatedResult<T> = new PaginatedResult<T>();
+
+    return this.http.get<T>(url, { observe: 'response', params }).pipe(
       map(response => {
-        this.paginatedResult.result = response.body;
+        paginatedResult.result = response.body;
         if (response.headers.get('Pagination') !== null) {
-          this.paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+          paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
         }
-        return this.paginatedResult;
+        return paginatedResult;
       })
     );
   }
 
-  getUser(username: string) {
-    return this.http.get<User>(this.baseUrl + 'users/' + username);
+  private getPaginationHeaders(pageNumber: number, pageSize: number, congregation: number) {
+    let params = new HttpParams();
+    params = params.append('pageNumber', pageNumber.toString());
+    params = params.append('pageSize', pageSize.toString());
+    params = params.append('congregation', congregation.toString());
+
+    return params;
   }
   
 }
