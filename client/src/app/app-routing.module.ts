@@ -17,6 +17,7 @@ import { CongregationComponent } from './congregations/congregation/congregation
 import { DeliveryComponent } from './deliveries/delivery/delivery.component';
 import { DeliveryItemComponent } from './deliveries/delivery-item/delivery-item.component';
 import { UserListComponent } from './users/user-list/user-list.component';
+import { UserEditComponent } from './users/user-edit/user-edit.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -35,6 +36,7 @@ const routes: Routes = [
       {path: 'delivery', component: DeliveryComponent},
       {path: 'delivery/:id', component: DeliveryItemComponent},
       {path: 'users', component: UserListComponent},
+      {path: 'users/:username', component: UserEditComponent},
     ]
   },
   {path: 'errors', component: TestErrorsComponent},

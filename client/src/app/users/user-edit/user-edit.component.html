@@ -1,0 +1,58 @@
+<div class="container" *ngIf="user">
+  <div class="row">
+    <div class="col-4">
+      <h1>Edit User</h1>
+    </div>
+  </div>
+
+  <div class="col-8">
+
+    <div class="alert alert-info">
+      <p><i class="fa fa-info"></i> You have made changes. Any unsaved changes will be lost.</p>
+    </div>
+
+    <tabset class="member-tabset">
+      <tab heading='Details'>
+        <form #editForm="ngForm">
+          <div>
+            <strong class="mt-2">Name:</strong>
+            <input type="text" name="firstName" class="form-control" [(ngModel)]="user.firstName">
+          </div>
+          <div>
+            <strong class="mt-2">Surname:</strong>
+            <input type="text" name="surname" class="form-control" [(ngModel)]="user.surname">
+          </div>
+          <div class="mt-5">
+            <strong>Joined on:</strong>
+            <p>{{user.created | date:'shortDate'}}</p>
+          </div>
+          <div>
+            <strong>Last seen:</strong>
+            <p>{{user.lastActive | date:'medium'}}</p>
+          </div>
+          <div>
+            <strong>Admin:</strong>
+            <p [ngStyle]="{
+              color: user.admin 
+              ? 'hsl(141, 53%, 53%)' 
+              : 'hsl(348, 100%, 61%)'
+            }">{{user.admin | yesNo}}</p>
+          </div>
+        </form>
+      </tab>
+      <tab heading='Congregations'>
+
+      </tab>
+    </tabset>
+    
+    
+    <div class="card">
+      <div class="card-body">
+        
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-success btn-block">Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>

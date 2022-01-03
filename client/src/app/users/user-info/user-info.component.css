@@ -4,3 +4,12 @@
   transition-timing-function: ease-out;
   cursor: pointer;
 }
+
+.btn {
+  background-color: transparent;
+}
+
+.card-title {
+  color: #8e8c84 !important;
+  font-weight: bold;
+}

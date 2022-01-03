@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -26,6 +26,8 @@ import { LiteratureAddComponent } from './literature/literature-add/literature-a
 import { UserListComponent } from './users/user-list/user-list.component';
 import { UserInfoComponent } from './users/user-info/user-info.component';
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
+import { UserEditComponent } from './users/user-edit/user-edit.component';
+import { YesNoPipe } from './shared/yes-no.pipe';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,9 @@ import { JwtInterceptor } from './_interceptors/jwt.interceptor';
     ServerErrorComponent,
     LiteratureAddComponent,
     UserListComponent,
-    UserInfoComponent
+    UserInfoComponent,
+    UserEditComponent,
+    YesNoPipe
   ],
   imports: [
     BrowserModule,

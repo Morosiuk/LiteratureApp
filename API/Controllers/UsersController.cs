@@ -33,7 +33,7 @@ namespace API.Controllers
       return Ok(usersToReturn);
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public async Task<ActionResult<UserInfoDto>> GetUserAsync(int Id)
     {
       var user = await _userRepo.GetUserAsync(Id);
