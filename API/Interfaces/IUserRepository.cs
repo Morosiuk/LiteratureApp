@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.Helpers;
 
 namespace API.Interfaces
 {
@@ -9,7 +10,7 @@ namespace API.Interfaces
   {
     void Update(AppUser user);
     Task<bool> SaveAllAsync();
-    Task<IEnumerable<UserInfoDto>> GetUsersAsync();
+    Task<PagedList<UserInfoDto>> GetUsersAsync(UserParams userParams);
     Task<UserInfoDto> GetUserAsync(int id);
     Task<UserInfoDto> GetUserAsync(string username);
   }
