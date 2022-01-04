@@ -21,10 +21,9 @@ namespace API.Data
       _context = context;
     }
 
-    public async Task<PagedList<UserInfoDto>> GetUsersAsync(UserParams userParams)
+    public async Task<PagedList<AppUser>> GetUsersAsync(UserParams userParams)
     {
       var query = _context.Users
-        .ProjectTo<UserInfoDto>(_mapper.ConfigurationProvider)
         .AsNoTracking()
         .AsQueryable();
       
@@ -36,23 +35,29 @@ namespace API.Data
             .Any(cr => cr.CongregationId == userParams.Congregation)
           );
       }
+      query = userParams.OrderBy switch
+      {
+        "surname" => query.OrderBy(user => user.Surname),
+        "active" => query.OrderByDescending(user => user.LastActive),
+        _ => query.OrderBy(user => user.FirstName)
+      };
 
-      return await PagedList<UserInfoDto>.CreateAsync(query, userParams.PageNumber, userParams.PageSize);
+      return await PagedList<AppUser>.CreateAsync(query, userParams.PageNumber, userParams.PageSize);
     }
 
-    public async Task<UserInfoDto> GetUserAsync(int id)
+    public async Task<AppUser> GetUserAsync(int id)
     {
       return await _context.Users
         .Where(user => user.Id == id)
-        .ProjectTo<UserInfoDto>(_mapper.ConfigurationProvider)
         .SingleOrDefaultAsync();
     }
 
     public async Task<UserInfoDto> GetUserAsync(string username)
     {
-      return await _context.Users
+      var user = await _context.Users
         .ProjectTo<UserInfoDto>(_mapper.ConfigurationProvider)
         .SingleOrDefaultAsync(user => user.Username == username.ToLower());
+      return user;
     }
 
     public async Task<bool> SaveAllAsync()

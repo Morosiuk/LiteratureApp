@@ -12,6 +12,7 @@ namespace API.Helpers
     }
 
     public int Congregation { get; set; } = 0;
+    public string OrderBy {get;set;} = "firstname";
     
   }
 }
