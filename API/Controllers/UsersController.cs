@@ -49,8 +49,7 @@ namespace API.Controllers
     public async Task<ActionResult<UserInfoDto>> GetUserAsync(string username)
     {
       var user = await _userRepo.GetUserAsync(username);
-      var userToReturn = _mapper.Map<UserInfoDto>(user);
-      return userToReturn;
+      return user;
     }
   }
 }

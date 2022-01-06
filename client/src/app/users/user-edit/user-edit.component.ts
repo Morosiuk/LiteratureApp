@@ -15,9 +15,8 @@ export class UserEditComponent implements OnInit {
   currentUser: User;
 
   constructor(
-    private userService: UsersService, 
     private accountService: AccountService,
-    private route: ActivatedRoute) { 
+    private userService: UsersService) { 
 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.currentUser = user);
   }
@@ -27,7 +26,7 @@ export class UserEditComponent implements OnInit {
   }
 
   loadUser() {
-    this.userService.getUser(this.route.snapshot.paramMap.get('username')).subscribe(user => {
+    this.userService.getUser(this.currentUser.username).subscribe(user => {
       this.user = user;
     })
   }

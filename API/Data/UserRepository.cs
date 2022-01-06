@@ -21,7 +21,7 @@ namespace API.Data
       _context = context;
     }
 
-    public async Task<PagedList<AppUser>> GetUsersAsync(UserParams userParams)
+    public async Task<PagedList<UserInfoDto>> GetUsersAsync(UserParams userParams)
     {
       var query = _context.Users
         .AsNoTracking()
@@ -38,11 +38,14 @@ namespace API.Data
       query = userParams.OrderBy switch
       {
         "surname" => query.OrderBy(user => user.Surname),
-        "active" => query.OrderByDescending(user => user.LastActive),
+        "lastActive" => query.OrderByDescending(user => user.LastActive),
         _ => query.OrderBy(user => user.FirstName)
       };
 
-      return await PagedList<AppUser>.CreateAsync(query, userParams.PageNumber, userParams.PageSize);
+      return await PagedList<UserInfoDto>.CreateAsync(
+        query.ProjectTo<UserInfoDto>(_mapper.ConfigurationProvider), 
+        userParams.PageNumber, 
+        userParams.PageSize);
     }
 
     public async Task<AppUser> GetUserAsync(int id)

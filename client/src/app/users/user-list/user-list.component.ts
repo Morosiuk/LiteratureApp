@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { take } from 'rxjs/operators';
 import { Congregation } from 'src/app/_models/congregation';
 import { Pagination } from 'src/app/_models/pagination';
 import { User } from 'src/app/_models/user';
@@ -12,6 +13,7 @@ import { UsersService } from 'src/app/_services/users.service';
   styleUrls: ['./user-list.component.css']
 })
 export class UserListComponent implements OnInit {
+  currentUser: User;
   congregations: Congregation[];
   users: User[];
   pagination: Pagination;
@@ -20,7 +22,7 @@ export class UserListComponent implements OnInit {
   constructor(
     private userService: UsersService, 
     private congregationService: CongregationsService) {
-    this.userParams = new UserParams();
+      this.userParams = this.userService.getUserParams();
    }
 
   ngOnInit(): void {
@@ -35,6 +37,7 @@ export class UserListComponent implements OnInit {
   }
 
   loadUsers() {
+    this.userService.setUserParams(this.userParams);
     this.userService.getUsers(this.userParams).subscribe(response => {
       this.users = response.result;
       this.pagination = response.pagination;
@@ -42,12 +45,13 @@ export class UserListComponent implements OnInit {
   }
 
   resetFilters() {
-    this.userParams = new UserParams();
+    this.userParams = this.userService.resetUserParams();
     this.loadUsers();
   }
 
   pageChanged(event: any) {
     this.userParams.pageNumber = event.page;
+    this.userService.setUserParams(this.userParams);
     this.loadUsers();
   }
 

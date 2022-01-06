@@ -64,10 +64,16 @@ namespace API.Controllers
         if (computedHash[i] != user.Password[i]) return Unauthorized("Invalid password");
       }
 
+      var roles =  (await _context.Users 
+        .Include(u => u.CongregationRoles)
+        .FirstOrDefaultAsync(u => u.Id == user.Id))
+        .CongregationRoles;
+
       return new UserDto
       {
         Username = user.UserName,
-        Token = _tokenService.CreateToken(user)
+        Token = _tokenService.CreateToken(user),
+        CongregationId = roles?.FirstOrDefault()?.CongregationId ?? 0
       };
     }
 

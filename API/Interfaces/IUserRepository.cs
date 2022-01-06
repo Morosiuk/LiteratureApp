@@ -10,7 +10,7 @@ namespace API.Interfaces
   {
     void Update(AppUser user);
     Task<bool> SaveAllAsync();
-    Task<PagedList<AppUser>> GetUsersAsync(UserParams userParams);
+    Task<PagedList<UserInfoDto>> GetUsersAsync(UserParams userParams);
     Task<AppUser> GetUserAsync(int id);
     Task<UserInfoDto> GetUserAsync(string username);
   }

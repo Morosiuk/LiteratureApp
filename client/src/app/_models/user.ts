@@ -7,6 +7,7 @@ export interface User {
   created: Date;
   lastActive: Date;
   congregationRoles: CongregationRole[];
+  congregationId: number;
   admin: boolean;
   token: string;
 }

@@ -24,7 +24,7 @@ import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
 import { LiteratureAddComponent } from './literature/literature-add/literature-add.component';
 import { UserListComponent } from './users/user-list/user-list.component';
-import { UserInfoComponent } from './users/user-info/user-info.component';
+import { UserCardComponent } from './users/user-card/user-card.component';
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
 import { YesNoPipe } from './shared/yes-no.pipe';
@@ -48,7 +48,7 @@ import { YesNoPipe } from './shared/yes-no.pipe';
     ServerErrorComponent,
     LiteratureAddComponent,
     UserListComponent,
-    UserInfoComponent,
+    UserCardComponent,
     UserEditComponent,
     YesNoPipe
   ],
