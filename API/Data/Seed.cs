@@ -18,7 +18,7 @@ namespace API.Data
       //Create roles
       new List<Role>()
       {
-        new Role() {Name = "Publisher", Description = "Publisher"},
+        new Role() {Name = "Publisher", Description = "Publisher", Default = true},
         new Role() {Name = "Servant", Description = "Literature Servant", Admin = true},
         new Role() {Name = "Overseer", Description = "Congregation Overseer", Admin = true},
         new Role() {Name = "Coordinator", Description = "Literature Co-ordinator", Admin = true}

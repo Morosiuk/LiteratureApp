@@ -18,6 +18,7 @@ namespace API.Controllers
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public async Task<ActionResult<IEnumerable<Congregation>>> GetCongregationsAsync()
     {
       var congregations = await _congregationRepo.GetCongregationsAsync();

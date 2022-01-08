@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace API.Entities
 {
@@ -16,5 +17,19 @@ namespace API.Entities
         public ICollection<CongregationRole> CongregationRoles { get; set; }
         public bool Admin { get; set; }
 
+    internal void AddRole(Role role, int congregation)
+    {
+      if (CongregationRoles == null) {CongregationRoles = new List<CongregationRole>();}
+      if (CongregationRoles.Any(cr => 
+        cr.CongregationId == congregation &&
+        cr.RoleId == role.Id)) return;
+
+      CongregationRoles.Add(new CongregationRole {
+        CongregationId = congregation,
+        RoleId = role.Id,
+        UserId = this.Id,
+        StartDate = DateTime.Now
+      });
     }
+  }
 }

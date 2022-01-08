@@ -1,18 +1,44 @@
-<form #registerForm="ngForm" (ngSubmit)="register()" autocomplete="off">
+<form [formGroup]="registerForm" (ngSubmit)="register()" autocomplete="off">
   <h2 class="text-center text-primary">Sign up</h2>
   <hr>
-  <div class="form-group">
-    <input type="text" class="form-control" name="username" 
-      [(ngModel)]="model.username" placeholder="Username">
-  </div>
+  <app-text-input 
+    [formControl]="registerForm.controls['username']" 
+    [label]="'Username'"></app-text-input>
+  <app-text-input
+    [formControl]="registerForm.controls['firstName']" 
+    [label]="'First Name'"></app-text-input>
+  <app-text-input
+    [formControl]="registerForm.controls['surname']" 
+    [label]="'Surname'"></app-text-input>
 
   <div class="form-group">
-    <input type="password" class="form-control" name="password" 
-      [(ngModel)]="model.password" placeholder="Password">
+    <input 
+      formControlName="congregation"
+      [class.is-invalid]="registerForm.get('congregation').errors && registerForm.get('congregation').touched"
+      type="text" list="congregations" name="congregations" class="form-control" placeholder="Congregation">
+    <datalist id="congregations">
+      <option *ngFor="let cong of congregations" [ngValue]="cong.id" >
+        {{cong.name}}
+      </option>
+    </datalist>
+    <div *ngIf="registerForm.get('congregation').errors?.required" class="invalid-feedback">
+      Please select a Congregation.
+    </div>
   </div>
 
+  <app-text-input 
+    [formControl]="registerForm.controls['password']" 
+    [label]="'Password'" [type]="'password'"></app-text-input>
+  <app-text-input 
+    [formControl]="registerForm.controls['confirmPassword']" 
+    [label]="'Confirm Password'" 
+    [type]="'password'"></app-text-input>
+  
   <div class="form-group text-center">
     <button class="btn btn-success mr-2" type="submit">Register</button>
     <button class="btn btn-default mr-2" (click)="cancel()" type="button">Cancel</button>
   </div>
 </form>
+
+<p>Form value: {{registerForm.value | json}}</p>
+<p>Form status: {{registerForm.status | json}}</p>

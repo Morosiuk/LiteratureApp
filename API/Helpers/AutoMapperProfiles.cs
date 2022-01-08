@@ -17,6 +17,12 @@ namespace API.Helpers
           .ForMember(
             dest => dest.Congregation,
             opt => opt.MapFrom(src => src.Congregation.Name));
+        CreateMap<RegisterDto, AppUser>()
+          .ForMember(
+            dest => dest.CongregationRoles, act => act.Ignore())
+          .ForMember(
+            dest => dest.Password, act => act.Ignore()
+          );
 
     }
 

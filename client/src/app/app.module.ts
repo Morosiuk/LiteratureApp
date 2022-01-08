@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavComponent } from './nav/nav.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
@@ -28,6 +28,8 @@ import { UserCardComponent } from './users/user-card/user-card.component';
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
 import { YesNoPipe } from './shared/yes-no.pipe';
+import { TextInputComponent } from './_forms/text-input/text-input.component';
+import { CongregationListComponent } from './congregations/congregation-list/congregation-list.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +52,9 @@ import { YesNoPipe } from './shared/yes-no.pipe';
     UserListComponent,
     UserCardComponent,
     UserEditComponent,
-    YesNoPipe
+    YesNoPipe,
+    TextInputComponent,
+    CongregationListComponent
   ],
   imports: [
     BrowserModule,
@@ -58,6 +62,7 @@ import { YesNoPipe } from './shared/yes-no.pipe';
     HttpClientModule,
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     SharedModule
   ],
   providers: [
