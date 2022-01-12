@@ -10,6 +10,7 @@ namespace API.Helpers
     {
         CreateMap<AppUser, UserInfoDto>();
         CreateMap<AppUser, UserToUpdateDto>();
+        CreateMap<AppUser, UserDto>();
         CreateMap<CongregationRole, CongregationRoleDto>()
           .ForMember(
             dest => dest.Role, 
@@ -23,7 +24,7 @@ namespace API.Helpers
           .ForMember(
             dest => dest.Password, act => act.Ignore()
           );
-
+        CreateMap<AddCongregationDto, Congregation>();
     }
 
   }

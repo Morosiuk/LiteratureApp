@@ -1,0 +1,11 @@
+<div class="card mb-4">
+  <button routerLink="/congregations/{{congregation.name | lowercase}}" class="btn btn-primary">
+  <div class="card-body p-1">
+    
+    <h6 class="card-title text-center mb-1">
+        {{congregation.name}}
+    </h6>
+      <p class="card-text text-muted text-center">{{congregation.name | titlecase}} {{congregation.code}}</p>
+    </div>
+  </button>
+</div>

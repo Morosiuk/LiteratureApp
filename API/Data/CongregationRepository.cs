@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.DTOs;
 using API.Entities;
 using API.Interfaces;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
@@ -10,14 +12,16 @@ namespace API.Data
   public class CongregationRepository : ICongregationRepository
   {
     private readonly DataContext _context;
-    public CongregationRepository(DataContext context)
+    private readonly IMapper _mapper;
+    public CongregationRepository(DataContext context, IMapper mapper)
     {
+      _mapper = mapper;
       _context = context;
     }
 
     public async Task<IEnumerable<Congregation>> GetCongregationsAsync()
     {
-      return await _context.Congregations.ToListAsync(); 
+      return await _context.Congregations.ToListAsync();
     }
 
     public async Task<Congregation> GetCongregationAsync(int id)
@@ -31,14 +35,24 @@ namespace API.Data
         .SingleOrDefaultAsync(cong => cong.Name.ToLower() == name.ToLower());
     }
 
-    public async Task<bool> SaveAllAsync()
+    public void AddCongregation(Congregation congregation)
     {
-      return await _context.SaveChangesAsync() > 0;
+      _context.Congregations.Add(congregation);
     }
 
     public void Update(Congregation congregation)
     {
       _context.Entry(congregation).State = EntityState.Modified;
+    }
+
+    public void DeleteCongregation(Congregation congregation)
+    {
+      throw new System.NotImplementedException();
+    }
+
+    public async Task<bool> SaveAllAsync()
+    {
+      return await _context.SaveChangesAsync() > 0;
     }
   }
 }

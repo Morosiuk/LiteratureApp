@@ -1,1 +1,42 @@
-<p>congregation-list works!</p>
+<div class="container mt-3">
+  <form #filerForm="ngForm" class="form-inline mb-3" (ngSubmit)="getCongregations()" autocomplete="off">
+
+    <div class="form-group">
+      <label>Search:</label>
+      <input 
+        name="congregation" 
+        style="float: right" 
+        class="form-control ml-1"
+        (click)="getCongregations()"/>
+    </div>
+
+    <div class="col">
+      
+      <div class="btn-group float-right">
+        <label class="label mr-2">Sort By:</label>
+        <button type="button"
+          class="btn btn-primary" 
+          name="orderBy" 
+          (click)="getCongregations()"
+          btnRadio="firstname">Name</button>
+        <button type="button"
+          class="btn btn-primary" 
+          name="orderBy" 
+          (click)="getCongregations()"
+          btnRadio="surname">Code</button>
+        <button type="button"
+          class="btn btn-primary" 
+          name="orderBy" 
+          (click)="getCongregations()"
+          btnRadio="lastActive"># Publishers</button>
+        
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="row">
+  <div *ngFor="let cong of congregations" class="col-2">
+    <app-congregation-card [congregation]="cong"></app-congregation-card>
+  </div>
+</div>

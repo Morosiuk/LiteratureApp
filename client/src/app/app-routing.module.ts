@@ -13,11 +13,11 @@ import { LiteratureAddComponent } from './literature/literature-add/literature-a
 import { RequestItemComponent } from './requests/request-item/request-item.component';
 import { RequestComponent } from './requests/request/request.component';
 import { CongregationItemComponent } from './congregations/congregation-item/congregation-item.component';
-import { CongregationComponent } from './congregations/congregation/congregation.component';
 import { DeliveryComponent } from './deliveries/delivery/delivery.component';
 import { DeliveryItemComponent } from './deliveries/delivery-item/delivery-item.component';
 import { UserListComponent } from './users/user-list/user-list.component';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
+import { CongregationListComponent } from './congregations/congregation-list/congregation-list.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -31,7 +31,7 @@ const routes: Routes = [
       {path: 'literature/:id', component: LiteratureItemComponent},
       {path: 'requests', component: RequestComponent},
       {path: 'requests/:id', component: RequestItemComponent},
-      {path: 'congregations', component: CongregationComponent},
+      {path: 'congregations', component: CongregationListComponent},
       {path: 'congregations/:id', component: CongregationItemComponent},
       {path: 'delivery', component: DeliveryComponent},
       {path: 'delivery/:id', component: DeliveryItemComponent},

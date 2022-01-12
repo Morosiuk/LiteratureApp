@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using API.Entities;
 using API.Interfaces;
+using AutoMapper;
+using API.DTOs;
 
 namespace API.Controllers
 {
@@ -11,9 +13,11 @@ namespace API.Controllers
   public class CongregationsController : BaseApiController
   {
     private readonly ICongregationRepository _congregationRepo;
+    private readonly IMapper _mapper;
 
-    public CongregationsController(ICongregationRepository congregationRepo)
+    public CongregationsController(ICongregationRepository congregationRepo, IMapper mapper)
     {
+      _mapper = mapper;
       _congregationRepo = congregationRepo;
     }
 
@@ -35,6 +39,22 @@ namespace API.Controllers
     public async Task<ActionResult<Congregation>> GetCongregationAsync(string name)
     {
       return await _congregationRepo.GetCongregationAsync(name);
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<Congregation>> AddCongregationAsync(AddCongregationDto congregation)
+    {
+      //Check congregation doesn't already exist
+      var existingCong = await _congregationRepo.GetCongregationAsync(congregation.Name);
+      if (existingCong != null) return BadRequest("Congregation already exists");
+
+      //Create new congregation
+      var newCongregation = _mapper.Map<Congregation>(congregation);
+      _congregationRepo.AddCongregation(newCongregation);
+      var result = await _congregationRepo.SaveAllAsync();
+      if (result) return Ok(newCongregation);
+
+      return BadRequest("Failed to add congregation");
     }
   }
 }

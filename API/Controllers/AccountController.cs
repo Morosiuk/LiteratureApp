@@ -74,12 +74,10 @@ namespace API.Controllers
         .FirstOrDefaultAsync(u => u.Id == user.Id))
         .CongregationRoles;
 
-      return new UserDto
-      {
-        Username = user.UserName,
-        Token = _tokenService.CreateToken(user),
-        CongregationId = roles?.FirstOrDefault()?.CongregationId ?? 0
-      };
+      var userToReturn = _mapper.Map<UserDto>(user);
+      userToReturn.Token = _tokenService.CreateToken(user);
+      userToReturn.CongregationId = roles?.FirstOrDefault()?.CongregationId ?? 0;
+      return userToReturn;
     }
 
     private async Task<bool> UserExists(string username)

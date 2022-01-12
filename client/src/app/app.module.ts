@@ -12,10 +12,10 @@ import { RegisterComponent } from './register/register.component';
 import { LiteratureComponent } from './literature/literature/literature.component';
 import { LiteratureItemComponent } from './literature/literature-item/literature-item.component';
 import { RequestItemComponent } from './requests/request-item/request-item.component';
+import { CongregationListComponent } from './congregations/congregation-list/congregation-list.component';
 import { CongregationItemComponent } from './congregations/congregation-item/congregation-item.component';
 import { DeliveryComponent } from './deliveries/delivery/delivery.component';
 import { DeliveryItemComponent } from './deliveries/delivery-item/delivery-item.component';
-import { CongregationComponent } from './congregations/congregation/congregation.component';
 import { RequestComponent } from './requests/request/request.component';
 import { SharedModule } from './_modules/shared.module';
 import { TestErrorsComponent } from './errors/test-errors/test-errors.component';
@@ -29,7 +29,7 @@ import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
 import { YesNoPipe } from './shared/yes-no.pipe';
 import { TextInputComponent } from './_forms/text-input/text-input.component';
-import { CongregationListComponent } from './congregations/congregation-list/congregation-list.component';
+import { CongregationCardComponent } from './congregations/congregation-card/congregation-card.component';
 
 @NgModule({
   declarations: [
@@ -40,10 +40,10 @@ import { CongregationListComponent } from './congregations/congregation-list/con
     LiteratureComponent,
     LiteratureItemComponent,
     RequestItemComponent,
+    CongregationListComponent,
     CongregationItemComponent,
     DeliveryComponent,
     DeliveryItemComponent,
-    CongregationComponent,
     RequestComponent,
     TestErrorsComponent,
     NotFoundComponent,
@@ -54,7 +54,8 @@ import { CongregationListComponent } from './congregations/congregation-list/con
     UserEditComponent,
     YesNoPipe,
     TextInputComponent,
-    CongregationListComponent
+    CongregationListComponent,
+    CongregationCardComponent
   ],
   imports: [
     BrowserModule,
