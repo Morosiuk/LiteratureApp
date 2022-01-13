@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Congregation } from 'src/app/_models/congregation';
+import { CongregationSummary } from 'src/app/_models/congregationSummary';
 import { CongregationsService } from 'src/app/_services/congregations.service';
 
 @Component({
@@ -8,7 +8,7 @@ import { CongregationsService } from 'src/app/_services/congregations.service';
   styleUrls: ['./congregation-list.component.css']
 })
 export class CongregationListComponent implements OnInit {
-  congregations: Congregation[];
+  congregations: CongregationSummary[];
 
   constructor(private congregationService: CongregationsService) { }
 

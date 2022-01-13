@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { Congregation } from '../_models/congregation';
+import { CongregationSummary } from '../_models/congregationSummary';
 import { AccountService } from '../_services/account.service';
 import { CongregationsService } from '../_services/congregations.service';
 
@@ -14,7 +14,7 @@ export class RegisterComponent implements OnInit {
   @Output() cancelRegister = new EventEmitter();
   model: any = {};
   registerForm: FormGroup;
-  congregations: Congregation[];
+  congregations: CongregationSummary[];
 
   constructor(private accountService: AccountService,
     private toastr: ToastrService,
