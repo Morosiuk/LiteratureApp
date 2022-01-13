@@ -6,6 +6,7 @@ using API.Entities;
 using API.Interfaces;
 using AutoMapper;
 using API.DTOs;
+using System;
 
 namespace API.Controllers
 {
@@ -23,7 +24,7 @@ namespace API.Controllers
 
     [HttpGet]
     [AllowAnonymous]
-    public async Task<ActionResult<IEnumerable<Congregation>>> GetCongregationsAsync()
+    public async Task<ActionResult<IEnumerable<CongregationDto>>> GetCongregationsAsync()
     {
       var congregations = await _congregationRepo.GetCongregationsAsync();
       return Ok(congregations);
@@ -50,10 +51,12 @@ namespace API.Controllers
 
       //Create new congregation
       var newCongregation = _mapper.Map<Congregation>(congregation);
+      newCongregation.DateCreated = DateTime.Now;
       _congregationRepo.AddCongregation(newCongregation);
+
       var result = await _congregationRepo.SaveAllAsync();
       if (result) return Ok(newCongregation);
-
+      
       return BadRequest("Failed to add congregation");
     }
   }

@@ -1,3 +1,4 @@
+using System.Linq;
 using API.DTOs;
 using API.Entities;
 using AutoMapper;
@@ -11,6 +12,14 @@ namespace API.Helpers
         CreateMap<AppUser, UserInfoDto>();
         CreateMap<AppUser, UserToUpdateDto>();
         CreateMap<AppUser, UserDto>();
+        CreateMap<RegisterDto, AppUser>()
+          .ForMember(
+            dest => dest.CongregationRoles, act => act.Ignore())
+          .ForMember(
+            dest => dest.Password, act => act.Ignore()
+          );
+        
+        CreateMap<AddCongregationDto, Congregation>();
         CreateMap<CongregationRole, CongregationRoleDto>()
           .ForMember(
             dest => dest.Role, 
@@ -18,13 +27,13 @@ namespace API.Helpers
           .ForMember(
             dest => dest.Congregation,
             opt => opt.MapFrom(src => src.Congregation.Name));
-        CreateMap<RegisterDto, AppUser>()
+        CreateMap<Congregation, CongregationDto>()
           .ForMember(
-            dest => dest.CongregationRoles, act => act.Ignore())
-          .ForMember(
-            dest => dest.Password, act => act.Ignore()
+            dest => dest.Publishers,
+            opt => opt.MapFrom(src => src.CongregationRoles
+              .Select(cr => cr.UserId).Distinct().Count())
           );
-        CreateMap<AddCongregationDto, Congregation>();
+          
     }
 
   }

@@ -5,6 +5,7 @@ using API.DTOs;
 using API.Entities;
 using API.Interfaces;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
@@ -19,9 +20,11 @@ namespace API.Data
       _context = context;
     }
 
-    public async Task<IEnumerable<Congregation>> GetCongregationsAsync()
+    public async Task<IEnumerable<CongregationDto>> GetCongregationsAsync()
     {
-      return await _context.Congregations.ToListAsync();
+      return await _context.Congregations
+        .ProjectTo<CongregationDto>(_mapper.ConfigurationProvider)
+        .ToListAsync();
     }
 
     public async Task<Congregation> GetCongregationAsync(int id)

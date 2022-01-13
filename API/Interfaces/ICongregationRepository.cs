@@ -9,7 +9,7 @@ namespace API.Interfaces
   {
     void AddCongregation(Congregation congregation);
     void DeleteCongregation(Congregation congregation);
-    Task<IEnumerable<Congregation>> GetCongregationsAsync();
+    Task<IEnumerable<CongregationDto>> GetCongregationsAsync();
     Task<Congregation> GetCongregationAsync(int id);
     Task<Congregation> GetCongregationAsync(string name);
     void Update(Congregation congregation);

@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace API.Entities
@@ -8,5 +10,7 @@ namespace API.Entities
     [Required]
     public string Name { get; set; }
     public int? Code { get; set; }
+    public DateTime DateCreated { get; set; }
+    public ICollection<CongregationRole> CongregationRoles { get; set; }
   }
 }
