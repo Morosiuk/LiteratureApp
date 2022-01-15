@@ -1,4 +1,4 @@
-export interface CongregationSummary {
+export interface CongregationCard {
   id: number;
   name: string;
   code: number;

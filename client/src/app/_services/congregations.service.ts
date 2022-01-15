@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { CongregationSummary } from '../_models/congregationSummary';
+import { CongregationCard } from '../_models/congregationCard';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +12,10 @@ export class CongregationsService {
   constructor(private http: HttpClient) { }
 
   getCongregations() {
-    return this.http.get<CongregationSummary[]>(this.baseUrl + 'congregations');
+    return this.http.get<CongregationCard[]>(this.baseUrl + 'congregations');
+  }
+
+  addCongregation(model: any) {
+    return this.http.post(this.baseUrl + 'congregations', model);
   }
 }

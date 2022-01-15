@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CongregationSummary } from 'src/app/_models/congregationSummary';
+import { CongregationCard } from 'src/app/_models/congregationCard';
 
 @Component({
   selector: 'app-congregation-card',
@@ -7,7 +7,7 @@ import { CongregationSummary } from 'src/app/_models/congregationSummary';
   styleUrls: ['./congregation-card.component.css']
 })
 export class CongregationCardComponent implements OnInit {
-  @Input() congregation: CongregationSummary;
+  @Input() congregation: CongregationCard;
   
   constructor() { }
 
