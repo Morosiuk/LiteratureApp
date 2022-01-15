@@ -12,4 +12,6 @@
     {{label}} cannot be longer than {{ngControl.control.errors.maxlength['requiredLength']}} characters.</div>
   <div *ngIf="ngControl.control.errors?.isMatching" class="invalid-feedback">
     Passwords do not match.</div>
+    <div *ngIf="ngControl.control.errors?.uniqueName" class="invalid-feedback">
+      This name is already in use.</div>
 </div>

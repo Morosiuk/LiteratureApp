@@ -18,6 +18,7 @@ import { DeliveryItemComponent } from './deliveries/delivery-item/delivery-item.
 import { UserListComponent } from './users/user-list/user-list.component';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
 import { CongregationListComponent } from './congregations/congregation-list/congregation-list.component';
+import { CongregationAddComponent } from './congregations/congregation-add/congregation-add.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -32,6 +33,7 @@ const routes: Routes = [
       {path: 'requests', component: RequestComponent},
       {path: 'requests/:id', component: RequestItemComponent},
       {path: 'congregations', component: CongregationListComponent},
+      {path: 'congregations/add', component: CongregationAddComponent},
       {path: 'congregations/:id', component: CongregationItemComponent},
       {path: 'delivery', component: DeliveryComponent},
       {path: 'delivery/:id', component: DeliveryItemComponent},

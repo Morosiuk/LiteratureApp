@@ -34,7 +34,7 @@ export class RegisterComponent implements OnInit {
       congregation: [null, Validators.required],
       password: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', [Validators.required, this.matchValues('password')]]
-    })
+    });
     this.registerForm.controls.password.valueChanges.subscribe(() => {
       this.registerForm.controls.confirmPassword.updateValueAndValidity();
     });

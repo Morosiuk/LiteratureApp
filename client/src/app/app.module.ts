@@ -30,6 +30,7 @@ import { UserEditComponent } from './users/user-edit/user-edit.component';
 import { YesNoPipe } from './shared/yes-no.pipe';
 import { TextInputComponent } from './_forms/text-input/text-input.component';
 import { CongregationCardComponent } from './congregations/congregation-card/congregation-card.component';
+import { CongregationAddComponent } from './congregations/congregation-add/congregation-add.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { CongregationCardComponent } from './congregations/congregation-card/con
     YesNoPipe,
     TextInputComponent,
     CongregationListComponent,
-    CongregationCardComponent
+    CongregationCardComponent,
+    CongregationAddComponent
   ],
   imports: [
     BrowserModule,
