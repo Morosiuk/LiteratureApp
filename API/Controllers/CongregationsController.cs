@@ -41,7 +41,7 @@ namespace API.Controllers
       return await _congregationRepo.GetCongregationAsync(Id);
     }
 
-    [HttpGet("{username}")]
+    [HttpGet("{name}")]
     public async Task<ActionResult<Congregation>> GetCongregationAsync(string name)
     {
       return await _congregationRepo.GetCongregationAsync(name);

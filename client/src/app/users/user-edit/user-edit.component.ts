@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
@@ -17,7 +16,6 @@ export class UserEditComponent implements OnInit {
   constructor(
     private accountService: AccountService,
     private userService: UsersService) { 
-
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.currentUser = user);
   }
 

@@ -34,7 +34,7 @@ const routes: Routes = [
       {path: 'requests/:id', component: RequestItemComponent},
       {path: 'congregations', component: CongregationListComponent},
       {path: 'congregations/add', component: CongregationAddComponent},
-      {path: 'congregations/:id', component: CongregationItemComponent},
+      {path: 'congregations/:name', component: CongregationItemComponent},
       {path: 'delivery', component: DeliveryComponent},
       {path: 'delivery/:id', component: DeliveryItemComponent},
       {path: 'users', component: UserListComponent},
