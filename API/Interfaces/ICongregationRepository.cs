@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.Helpers;
 
 namespace API.Interfaces
 {
@@ -9,7 +10,7 @@ namespace API.Interfaces
   {
     void AddCongregation(Congregation congregation);
     void DeleteCongregation(Congregation congregation);
-    Task<IEnumerable<CongregationDto>> GetCongregationsAsync();
+    Task<PagedList<CongregationDto>> GetCongregationsAsync(CongParams congParams);
     Task<Congregation> GetCongregationAsync(int id);
     Task<Congregation> GetCongregationAsync(string name);
     void Update(Congregation congregation);

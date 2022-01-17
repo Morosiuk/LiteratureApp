@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -20,11 +21,25 @@ namespace API.Data
       _context = context;
     }
 
-    public async Task<IEnumerable<CongregationDto>> GetCongregationsAsync()
+    public async Task<PagedList<CongregationDto>> GetCongregationsAsync(CongParams congParams)
     {
-      return await _context.Congregations
-        .ProjectTo<CongregationDto>(_mapper.ConfigurationProvider)
-        .ToListAsync();
+      var query = _context.Congregations
+        .AsNoTracking()
+        .AsQueryable();
+
+      query = query.Where(cong => EF.Functions.Like(cong.Name, $@"%{congParams.Keyword}%"));
+      
+      query = congParams.OrderBy switch 
+      {
+        "name" => query.OrderBy(cong => cong.Name),
+        "code" => query.OrderBy(cong => cong.Code),
+        "publishers" => query.OrderByDescending(cong => cong.CongregationRoles.Select(cr => cr.UserId).Distinct().Count()),
+        _ => query.OrderBy(cong => cong.Name)
+      };
+      return await PagedList<CongregationDto>.CreateAsync(
+        query.ProjectTo<CongregationDto>(_mapper.ConfigurationProvider),
+        congParams.PageNumber,
+        congParams.PageSize);
     }
 
     public async Task<Congregation> GetCongregationAsync(int id)

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { CongParams } from 'src/app/_models/congParams';
 import { CongregationCard } from 'src/app/_models/congregationCard';
+import { Pagination } from 'src/app/_models/pagination';
 import { CongregationsService } from 'src/app/_services/congregations.service';
 
 @Component({
@@ -9,17 +11,27 @@ import { CongregationsService } from 'src/app/_services/congregations.service';
 })
 export class CongregationListComponent implements OnInit {
   congregations: CongregationCard[];
+  pagination: Pagination;
+  congParams: CongParams;
 
-  constructor(private congregationService: CongregationsService) { }
-
-  ngOnInit(): void {
-    this.getCongregations();
+  constructor(private congregationService: CongregationsService) { 
+    this.congParams = new CongParams();
   }
 
-  getCongregations() {
-    this.congregationService.getCongregations().subscribe(response => {
-      this.congregations = response;
-    })
+  ngOnInit(): void {
+    this.loadCongregations();
+  }
+
+  loadCongregations() {
+    this.congregationService.getCongregations(this.congParams).subscribe(response => {
+      this.congregations = response.result;
+      this.pagination = response.pagination;
+    });
+  }
+
+  pageChanged(event: any) {
+    this.congParams.pageNumber = event.page;
+    this.loadCongregations();
   }
 
 }

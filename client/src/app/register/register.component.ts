@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
+import { CongParams } from '../_models/congParams';
 import { CongregationCard } from '../_models/congregationCard';
 import { AccountService } from '../_services/account.service';
 import { CongregationsService } from '../_services/congregations.service';
@@ -15,11 +15,13 @@ export class RegisterComponent implements OnInit {
   model: any = {};
   registerForm: FormGroup;
   congregations: CongregationCard[];
+  congParams: CongParams;
 
   constructor(private accountService: AccountService,
-    private toastr: ToastrService,
     private formBuilder: FormBuilder,
-    private congregationService: CongregationsService) { }
+    private congregationService: CongregationsService) { 
+      this.congParams = new CongParams();
+    }
 
   ngOnInit(): void {
     this.initForm();
@@ -48,8 +50,8 @@ export class RegisterComponent implements OnInit {
   }
 
   loadCongregations() {
-    this.congregationService.getCongregations().subscribe(response => {
-      this.congregations = response;
+    this.congregationService.getCongregations(this.congParams).subscribe(response => {
+      this.congregations = response.result;
     })
   }
 

@@ -1,18 +1,26 @@
 <div class="container mt-3">
-  <form #filerForm="ngForm" class="form-inline mb-3" (ngSubmit)="getCongregations()" autocomplete="off">
-
+  <h2 class="text-center text-primary">Congregation List</h2>
+  <hr>
+  
+  <form #filterForm="ngForm" class="form-inline mb-3" (ngSubmit)="loadCongregations()" autocomplete="off">
+    
     <div class="form-group">
       <label>Search:</label>
       <input 
-        name="congregation" 
-        style="float: right" 
-        class="form-control ml-1"
-        (click)="getCongregations()"/>
-      <button class="btn-group float-left ml-2 btn-success" routerLink="/congregations/add">
-        Create New
-      </button>
+      [(ngModel)]="congParams.keyword"   
+      name="congregation" 
+      style="float: right" 
+      class="form-control ml-1"
+      (click)="loadCongregations()"/>
+      
+      <button class="btn-group float-left ml-2 btn-primary" type="submit">
+        Search
+      </button>    
     </div>
-
+    
+    <button class="float-right ml-2 btn-success" routerLink="/congregations/add">
+      Create New
+    </button>
 
     <div class="col">
       
@@ -21,26 +29,43 @@
         <button type="button"
           class="btn btn-primary" 
           name="orderBy" 
-          (click)="getCongregations()"
-          btnRadio="firstname">Name</button>
+          [(ngModel)]="congParams.orderBy"
+          (click)="loadCongregations()"
+          btnRadio="name">Name</button>
         <button type="button"
           class="btn btn-primary" 
           name="orderBy" 
-          (click)="getCongregations()"
-          btnRadio="surname">Code</button>
+          [(ngModel)]="congParams.orderBy"
+          (click)="loadCongregations()"
+          btnRadio="code">Code</button>
         <button type="button"
           class="btn btn-primary" 
           name="orderBy" 
-          (click)="getCongregations()"
-          btnRadio="lastActive"># Publishers</button>
+          [(ngModel)]="congParams.orderBy"
+          (click)="loadCongregations()"
+          btnRadio="publishers"># Publishers</button>
         
       </div>
     </div>
   </form>
 </div>
 
-<div class="row">
+<div *ngIf="congregations" class="row">
   <div *ngFor="let cong of congregations" class="col-2">
     <app-congregation-card [congregation]="cong"></app-congregation-card>
   </div>
+</div>
+
+<div class="d-flex justify-content-center" *ngIf="pagination">
+  <pagination
+    [boundaryLinks]="true"
+    [totalItems]="pagination.totalItems"
+    [itemsPerPage]="pagination.itemsPerPage"
+    [(ngModel)]="pagination.currentPage"
+    (pageChanged)="pageChanged($event)"
+    previousText="&lsaquo;"
+    nextText="&rsaquo;"
+    firstText="&laquo;"
+    lastText="&raquo;">
+  </pagination>
 </div>

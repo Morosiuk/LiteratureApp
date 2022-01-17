@@ -9,13 +9,13 @@ import { ControlValueAccessor, NgControl } from '@angular/forms';
 export class TextInputComponent implements ControlValueAccessor {
   @Input() label: string;
   @Input() type = 'text';
+  @Input() placeholder: string;
 
   constructor(@Self() public ngControl: NgControl) {
     this.ngControl.valueAccessor = this;
   }
 
-  writeValue(obj: any): void {
-    
+  writeValue(obj: any): void {    
   }
 
   registerOnChange(fn: any): void {}

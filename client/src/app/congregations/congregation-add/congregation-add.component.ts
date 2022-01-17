@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Congregation } from 'src/app/_models/congregation';
+import { CongParams } from 'src/app/_models/congParams';
 import { CongregationCard } from 'src/app/_models/congregationCard';
 import { CongregationsService } from 'src/app/_services/congregations.service';
 
@@ -15,6 +15,7 @@ export class CongregationAddComponent implements OnInit {
   congregations: CongregationCard[];
   addForm: FormGroup;
   validationErrors: string[] = [];
+  congParams: CongParams;
 
   constructor(
     private congregationService: CongregationsService, 
@@ -24,8 +25,8 @@ export class CongregationAddComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    this.getCongregations()
-    console.log(this.congregations);
+    this.getCongregations();
+    this.congParams = new CongParams();
   }
   
   initForm() {
@@ -40,8 +41,8 @@ export class CongregationAddComponent implements OnInit {
   }
 
   getCongregations() {
-    this.congregationService.getCongregations().subscribe(response => {
-      this.congregations = response;
+    this.congregationService.getCongregations(this.congParams).subscribe(response => {
+      this.congregations = response.result;
     });
   }
 
@@ -60,17 +61,24 @@ export class CongregationAddComponent implements OnInit {
   }
 
   addCongregation() {
-    const newCongregation: Congregation = {
-      id: null,
+    //Create model to send to api from form
+    const codeValue: string = this.addForm.value?.code;
+    const newCongregation: any = {
       name: this.addForm.value.name,
-      code: this.addForm.value.code
+      code: codeValue?.length > 0 ? codeValue : null 
     };
+
+    //post new congregation details
     this.congregationService.addCongregation(newCongregation).subscribe(response => {
       this.router.navigateByUrl("/congregations");
       this.toastr.success("Congregation added.");
     }, error => {
       this.validationErrors = error;
     });
+  }
+
+  cancel() {
+    this.router.navigateByUrl("/congregations");
   }
 
 }

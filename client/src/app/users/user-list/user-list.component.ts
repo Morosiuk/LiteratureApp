@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { take } from 'rxjs/operators';
+import { CongParams } from 'src/app/_models/congParams';
 import { Congregation } from 'src/app/_models/congregation';
 import { Pagination } from 'src/app/_models/pagination';
 import { User } from 'src/app/_models/user';
@@ -18,11 +19,13 @@ export class UserListComponent implements OnInit {
   users: User[];
   pagination: Pagination;
   userParams: UserParams;
+  congParams: CongParams;
 
   constructor(
     private userService: UsersService, 
     private congregationService: CongregationsService) {
       this.userParams = this.userService.getUserParams();
+      this.congParams = new CongParams();
    }
 
   ngOnInit(): void {
@@ -31,8 +34,8 @@ export class UserListComponent implements OnInit {
   }
 
   loadCongregations() {
-    this.congregationService.getCongregations().subscribe(response => {
-      this.congregations = response;
+    this.congregationService.getCongregations(this.congParams).subscribe(response => {
+      this.congregations = response.result;
     })
   }
 

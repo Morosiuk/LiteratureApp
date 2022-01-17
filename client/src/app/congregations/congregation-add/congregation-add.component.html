@@ -1,4 +1,4 @@
-<form [formGroup]="addForm" (ngSubmit)="addCongregation()" autocomplete="off">
+<form [formGroup]="addForm" (ngSubmit)="addForm.valid && addCongregation()" autocomplete="off">
   <h2 class="text-center text-primary">Create Congregation</h2>
   <hr>
   <app-text-input 
@@ -9,7 +9,8 @@
     [label]="'Confirm Name'"></app-text-input>
   <app-text-input
     [formControl]="addForm.controls['code']" 
-    [label]="'Code'"></app-text-input>
+    [label]="'Code'"
+    [placeholder]="'Congregation Code (optional)'"></app-text-input>
   
   <div class="row" *ngIf="validationErrors.length > 0">
     <ul class="text-danger">
@@ -19,12 +20,9 @@
     </ul>
   </div>
 
-
   <div class="form-group text-center">
-    <button class="btn btn-success mr-2" type="submit">Register</button>
-    <button class="btn btn-default mr-2" routerLink="/congregations" type="button">Cancel</button>
+    <button [disabled]="!addForm.valid" class="btn btn-success mr-2" type="submit">Add</button>
+    <button class="btn btn-default mr-2" (click)="cancel()" type="button">Cancel</button>
   </div>
-</form>
 
-<p>Form value: {{addForm.value | json}}</p>
-<p>Form status: {{addForm.status | json}}</p>
+</form>
