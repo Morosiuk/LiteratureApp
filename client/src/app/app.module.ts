@@ -31,6 +31,7 @@ import { YesNoPipe } from './shared/yes-no.pipe';
 import { TextInputComponent } from './_forms/text-input/text-input.component';
 import { CongregationCardComponent } from './congregations/congregation-card/congregation-card.component';
 import { CongregationAddComponent } from './congregations/congregation-add/congregation-add.component';
+import { PublisherCreateComponent } from './users/publisher-create/publisher-create.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { CongregationAddComponent } from './congregations/congregation-add/congr
     TextInputComponent,
     CongregationListComponent,
     CongregationCardComponent,
-    CongregationAddComponent
+    CongregationAddComponent,
+    PublisherCreateComponent
   ],
   imports: [
     BrowserModule,

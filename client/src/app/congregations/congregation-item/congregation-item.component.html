@@ -1,8 +1,13 @@
 <div class="container mt-3" *ngIf="congregation">
   <div class="row">
     <h2 class="text-center text-primary">View Congregation</h2>
-    <hr>
   </div>
+  <hr>
+
+  <div class="row mt-4">
+    <h4 class="text-left text-primary">Details</h4>
+  </div>
+  <hr>
 
   <form #editForm="ngForm">
     <div>
@@ -15,6 +20,12 @@
     </div>
   </form>
 
+  <div class="d-flex flex-xl-row mt-2">
+    <div class="p-2"><h4 class="text-primary">Publishers</h4></div>
+    <div class="p-2"><button class="ml-2 btn btn-primary"><i class="fa fa-icon fa-plus"></i></button></div>
+  </div>
+
+  <hr>
   <div class="row mt-4">
     <div *ngFor="let user of users" class="col-2">
       <app-user-card [user]="user"></app-user-card>

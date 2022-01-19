@@ -4,32 +4,30 @@ using System.Linq;
 
 namespace API.Entities
 {
-    public class AppUser
-    {
-        public int Id { get; set; }   
-        public string UserName { get; set; }
-        public string FirstName { get; set; }
-        public string Surname { get; set; }
-        public byte[] Password { get; set; }
-        public byte[] PasswordSalt { get; set; }  
-        public DateTime Created { get; set; } = DateTime.Now;
-        public DateTime LastActive { get; set; } = DateTime.Now;
-        public ICollection<CongregationRole> CongregationRoles { get; set; }
-        public bool Admin { get; set; }
+  public class AppUser
+  {
+    public int Id { get; set; }
+    public string UserName { get; set; }
+    public byte[] PasswordHash { get; set; }
+    public byte[] PasswordSalt { get; set; }
+    public DateTime Created { get; set; } = DateTime.Now;
+    public DateTime LastActive { get; set; } = DateTime.Now;
+    public ICollection<AppUserPublisher> AssignedPublishers { get; set; } 
+      = new List<AppUserPublisher>();
+    public bool Admin { get; set; }
 
-    internal void AddRole(Role role, int congregation)
+    internal bool AssignPublisher(Publisher publisher)
     {
-      if (CongregationRoles == null) {CongregationRoles = new List<CongregationRole>();}
-      if (CongregationRoles.Any(cr => 
-        cr.CongregationId == congregation &&
-        cr.RoleId == role.Id)) return;
+      if (publisher == null) return false;
+      //Check they don't already have a publisher for this congregation
+      if (AssignedPublishers.Any(p => 
+        p.Publisher.CongregationId == publisher.CongregationId)) return false;
 
-      CongregationRoles.Add(new CongregationRole {
-        CongregationId = congregation,
-        RoleId = role.Id,
-        UserId = this.Id,
-        StartDate = DateTime.Now
+      AssignedPublishers.Add(new AppUserPublisher{
+        User = this,
+        Publisher = publisher
       });
+      return true;
     }
   }
 }

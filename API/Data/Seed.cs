@@ -19,14 +19,9 @@ namespace API.Data
       //Create roles
       new List<Role>()
       {
-        new Role() {Name = "Publisher", Description = "Publisher", 
-          Default = true},
-        new Role() {Name = "Servant", Description = "Literature Servant", 
-          Admin = true},
-        new Role() {Name = "Overseer", Description = "Congregation Overseer", 
-          Admin = true},
-        new Role() {Name = "Coordinator", Description = "Literature Co-ordinator", 
-          Admin = true}
+        new Role() {Name = "Servant", Description = "Literature Servant"},
+        new Role() {Name = "Overseer", Description = "Congregation Overseer"},
+        new Role() {Name = "Coordinator", Description = "Literature Co-ordinator"}
       }.ForEach(role => context.Roles.AddAsync(role));
 
       //Create congregations
@@ -48,7 +43,7 @@ namespace API.Data
         using var hmac = new HMACSHA512();
 
         user.UserName = user.UserName.ToLower();
-        user.Password = hmac.ComputeHash(Encoding.UTF8.GetBytes("Password"));
+        user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes("Password"));
         user.PasswordSalt = hmac.Key;
         context.Users.Add(user);
       }

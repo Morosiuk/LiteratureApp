@@ -33,7 +33,7 @@ namespace API.Data
       {
         "name" => query.OrderBy(cong => cong.Name),
         "code" => query.OrderBy(cong => cong.Code),
-        "publishers" => query.OrderByDescending(cong => cong.CongregationRoles.Select(cr => cr.UserId).Distinct().Count()),
+        "publishers" => query.OrderByDescending(cong => cong.Publishers.Count()),
         _ => query.OrderBy(cong => cong.Name)
       };
       return await PagedList<CongregationDto>.CreateAsync(

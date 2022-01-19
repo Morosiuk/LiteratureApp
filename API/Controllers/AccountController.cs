@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
@@ -33,24 +34,39 @@ namespace API.Controllers
       var user = _mapper.Map<AppUser>(registerDto);
       using var hmac = new HMACSHA512();
 
+      //Create AppUser
       user.UserName = registerDto.Username.ToLower();
-      user.Password = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password));
+      user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password));
       user.PasswordSalt = hmac.Key;      
-
-      //Set publisher role
-      var defaultRole = await _context.Roles.FirstOrDefaultAsync(r => r.Default);
-      user.AddRole(defaultRole, registerDto.Congregation);
-
       _context.Users.Add(user);
+
+      //Create Publisher role
+      var publisher = await _context.Publishers
+        .FirstOrDefaultAsync(p => 
+          p.CongregationId == registerDto.Congregation &&
+          p.Firstname.ToLower() == registerDto.Firstname.ToLower() &&
+          p.Surname.ToLower() == registerDto.Surname.ToLower());
+      if (publisher == null)
+      {
+        publisher = new Publisher{ 
+          Firstname = registerDto.Firstname,
+          Surname = registerDto.Surname,
+          CongregationId = registerDto.Congregation,
+          DateCreated = DateTime.Now
+        };
+      }
+      _context.Publishers.Add(publisher);
+
+      user.AssignPublisher(publisher);
       await _context.SaveChangesAsync();
 
       return new UserDto
       {
         Username = user.UserName,
         Token = _tokenService.CreateToken(user),
-        CongregationId = user.CongregationRoles?.FirstOrDefault()?.CongregationId ?? 0,
-        Firstname = user.FirstName,
-        Surname = user.Surname
+        Firstname = registerDto.Firstname,
+        Surname = registerDto.Surname,
+        CongregationId = registerDto.Congregation
       };
     }
 
@@ -66,17 +82,13 @@ namespace API.Controllers
 
       for (int i = 0; i < computedHash.Length; i++)
       {
-        if (computedHash[i] != user.Password[i]) return Unauthorized("Invalid password");
+        if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid password");
       }
 
-      var roles = (await _context.Users
-        .Include(u => u.CongregationRoles)
-        .FirstOrDefaultAsync(u => u.Id == user.Id))
-        .CongregationRoles;
-
       var userToReturn = _mapper.Map<UserDto>(user);
+      userToReturn.CongregationId = user.AssignedPublishers.FirstOrDefault()?
+        .Publisher?.CongregationId ?? 0;
       userToReturn.Token = _tokenService.CreateToken(user);
-      userToReturn.CongregationId = roles?.FirstOrDefault()?.CongregationId ?? 0;
       return userToReturn;
     }
 

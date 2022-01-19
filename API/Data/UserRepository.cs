@@ -31,16 +31,16 @@ namespace API.Data
       {
         //Filter on congregation
         query = query
-          .Where(user => user.CongregationRoles
-            .Any(cr => cr.CongregationId == userParams.Congregation)
+          .Where(user => user.AssignedPublishers
+            .Any(pub => pub.Publisher.CongregationId == userParams.Congregation)
           );
       }
-      query = userParams.OrderBy switch
-      {
-        "surname" => query.OrderBy(user => user.Surname),
-        "lastActive" => query.OrderByDescending(user => user.LastActive),
-        _ => query.OrderBy(user => user.FirstName)
-      };
+      // query = userParams.OrderBy switch
+      // {
+      //   "surname" => query.OrderBy(user => user.Surname),
+      //   "lastActive" => query.OrderByDescending(user => user.LastActive),
+      //   _ => query.OrderBy(user => user.FirstName)
+      // };
 
       return await PagedList<UserInfoDto>.CreateAsync(
         query.ProjectTo<UserInfoDto>(_mapper.ConfigurationProvider), 
