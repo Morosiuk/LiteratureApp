@@ -35,19 +35,11 @@ namespace API.Data
           DateCreated=DateTime.Now.AddDays(-175)}
       }.ForEach(cong => context.Congregations.AddAsync(cong));
 
-      //Add users
-      var newUsers = await System.IO.File.ReadAllTextAsync("Data/SeedData.Users.json");
-      var users = JsonSerializer.Deserialize<List<AppUser>>(newUsers);
-      foreach (var user in users)
-      {
-        using var hmac = new HMACSHA512();
+      //Import publishers
+      var importFile = await System.IO.File.ReadAllTextAsync("Data/PublisherData.Users.json");
+      var publishers = JsonSerializer.Deserialize<List<Publisher>>(importFile);
+      context.Publishers.AddRange(publishers);
 
-        user.UserName = user.UserName.ToLower();
-        user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes("Password"));
-        user.PasswordSalt = hmac.Key;
-        context.Users.Add(user);
-      }
-      
       await context.SaveChangesAsync();
     }
   }

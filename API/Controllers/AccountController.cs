@@ -44,12 +44,12 @@ namespace API.Controllers
       var publisher = await _context.Publishers
         .FirstOrDefaultAsync(p => 
           p.CongregationId == registerDto.Congregation &&
-          p.Firstname.ToLower() == registerDto.Firstname.ToLower() &&
+          p.FirstName.ToLower() == registerDto.Firstname.ToLower() &&
           p.Surname.ToLower() == registerDto.Surname.ToLower());
       if (publisher == null)
       {
         publisher = new Publisher{ 
-          Firstname = registerDto.Firstname,
+          FirstName = registerDto.Firstname,
           Surname = registerDto.Surname,
           CongregationId = registerDto.Congregation
         };
