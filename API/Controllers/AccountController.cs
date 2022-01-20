@@ -51,8 +51,7 @@ namespace API.Controllers
         publisher = new Publisher{ 
           Firstname = registerDto.Firstname,
           Surname = registerDto.Surname,
-          CongregationId = registerDto.Congregation,
-          DateCreated = DateTime.Now
+          CongregationId = registerDto.Congregation
         };
       }
       _context.Publishers.Add(publisher);
