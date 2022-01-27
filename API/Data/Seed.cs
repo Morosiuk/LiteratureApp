@@ -40,6 +40,17 @@ namespace API.Data
       var publishers = JsonSerializer.Deserialize<List<Publisher>>(importFile);
       context.Publishers.AddRange(publishers);
 
+      //Create admin user
+      var admin = new AppUser {
+        Admin = true,
+        Created = DateTime.Now,
+        UserName = "admin"
+      };
+      using var hmac = new HMACSHA512();
+      admin.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes("password"));
+      admin.PasswordSalt = hmac.Key;
+      context.Users.Add(admin);
+      
       await context.SaveChangesAsync();
     }
   }

@@ -16,7 +16,17 @@ namespace API.Helpers
           .ForMember(
             dest => dest.PasswordHash, act => act.Ignore()
           );
-        
+        CreateMap<Publisher, PublisherDto>()
+          .ForMember(
+            dest => dest.Congregation, opt => opt.MapFrom(
+              src => src.Congregation.Name)
+          )
+          .ForMember(
+            dest => dest.Role, opt => opt.MapFrom(
+              src => src.Role.Name
+            )
+          );
+
         CreateMap<AddCongregationDto, Congregation>();          
     }
 

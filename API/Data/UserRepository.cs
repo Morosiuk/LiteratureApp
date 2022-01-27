@@ -35,12 +35,12 @@ namespace API.Data
             .Any(pub => pub.Publisher.CongregationId == userParams.Congregation)
           );
       }
-      // query = userParams.OrderBy switch
-      // {
-      //   "surname" => query.OrderBy(user => user.Surname),
-      //   "lastActive" => query.OrderByDescending(user => user.LastActive),
-      //   _ => query.OrderBy(user => user.FirstName)
-      // };
+      query = userParams.OrderBy switch
+      {
+        "username" => query.OrderBy(user => user.UserName),
+        "lastActive" => query.OrderByDescending(user => user.LastActive),
+        _ => query.OrderBy(user => user.Id)
+      };
 
       return await PagedList<UserInfoDto>.CreateAsync(
         query.ProjectTo<UserInfoDto>(_mapper.ConfigurationProvider), 

@@ -53,6 +53,27 @@ namespace API.Data
         .SingleOrDefaultAsync(cong => cong.Name.ToLower() == name.ToLower());
     }
 
+    public async Task<PagedList<PublisherDto>> GetPublishersAsync(string congregation, PublisherParams pubParams)
+    {
+      var query = _context.Publishers
+        .AsNoTracking()
+        .AsQueryable();
+
+      query = query.Where(pub => pub.Congregation.Name.ToLower() == congregation.ToLower());
+
+      query = pubParams.OrderBy switch 
+      {
+        "firstname" => query.OrderBy(pub => pub.FirstName),
+        "surname" => query.OrderBy(pub => pub.Surname),
+        _ => query.OrderBy(cong => cong.Id)
+      };
+
+      return await PagedList<PublisherDto>.CreateAsync(
+        query.ProjectTo<PublisherDto>(_mapper.ConfigurationProvider),
+        pubParams.PageNumber,
+        pubParams.PageSize);
+    }
+
     public void AddCongregation(Congregation congregation)
     {
       _context.Congregations.Add(congregation);
@@ -72,5 +93,6 @@ namespace API.Data
     {
       return await _context.SaveChangesAsync() > 0;
     }
+
   }
 }

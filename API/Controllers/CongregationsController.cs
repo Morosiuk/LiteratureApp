@@ -2,13 +2,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using API.Helpers;
+using API.Extensions;
 using API.Entities;
 using API.Interfaces;
 using AutoMapper;
 using API.DTOs;
 using System;
-using API.Helpers;
-using API.Extensions;
 
 namespace API.Controllers
 {
@@ -45,6 +45,16 @@ namespace API.Controllers
     public async Task<ActionResult<Congregation>> GetCongregationAsync(string name)
     {
       return await _congregationRepo.GetCongregationAsync(name);
+    }
+
+    [HttpGet("{name}/publishers")]
+    public async Task<ActionResult<PublisherDto>> GetPublishersAsync(string name, [FromQuery]PublisherParams pubParams)
+    {
+      var publishers =  await _congregationRepo.GetPublishersAsync(name, pubParams);
+      Response.AddPaginationHeader(publishers.CurrentPage, 
+        publishers.PageSize, publishers.TotalCount, publishers.TotalPages);
+
+      return Ok(publishers);
     }
 
     [HttpPost("add")]

@@ -62,10 +62,7 @@ namespace API.Controllers
       return new UserDto
       {
         Username = user.UserName,
-        Token = _tokenService.CreateToken(user),
-        Firstname = registerDto.Firstname,
-        Surname = registerDto.Surname,
-        CongregationId = registerDto.Congregation
+        Token = _tokenService.CreateToken(user)
       };
     }
 
@@ -85,8 +82,6 @@ namespace API.Controllers
       }
 
       var userToReturn = _mapper.Map<UserDto>(user);
-      userToReturn.CongregationId = user.AssignedPublishers.FirstOrDefault()?
-        .Publisher?.CongregationId ?? 0;
       userToReturn.Token = _tokenService.CreateToken(user);
       return userToReturn;
     }

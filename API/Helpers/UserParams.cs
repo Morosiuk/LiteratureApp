@@ -6,7 +6,7 @@ namespace API.Helpers
     public int Congregation { get; set; } = 0;
     public UserParams()
     {
-      OrderBy = "firstname";
+      OrderBy = "username";
     }
   }
 }

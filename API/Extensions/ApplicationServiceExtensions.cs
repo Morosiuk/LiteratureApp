@@ -15,11 +15,13 @@ namespace API.Extensions
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ICongregationRepository, CongregationRepository>();
+        services.AddScoped<IPublisherRepository, PublisherRepository>();
         services.AddScoped<LogUserActivity>();
         services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
         services.AddDbContext<DataContext>(opt =>
         {
           opt.UseSqlite(config.GetConnectionString("DefaultConnection"));
+          opt.EnableSensitiveDataLogging();
         });
 
         return services;
