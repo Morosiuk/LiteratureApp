@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 namespace API.DTOs
 {
@@ -11,7 +10,7 @@ namespace API.DTOs
     public string Surname { get; set; } 
     public DateTime Created { get; set; }
     public DateTime LastActive { get; set; }
-    public ICollection<CongregationRoleDto> CongregationRoles { get; set; }
+    public string Congregation { get; set; }
     public bool Admin { get; set; }
   }
 }

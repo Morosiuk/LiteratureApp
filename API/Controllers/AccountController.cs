@@ -27,7 +27,7 @@ namespace API.Controllers
     }
 
     [HttpPost("register")]
-    public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
+    public async Task<ActionResult<UserTokenDto>> Register(RegisterDto registerDto)
     {
       if (await UserExists(registerDto.Username)) return BadRequest("Username already exists");
 
@@ -48,18 +48,19 @@ namespace API.Controllers
           p.Surname.ToLower() == registerDto.Surname.ToLower());
       if (publisher == null)
       {
+        //Create a new publisher
         publisher = new Publisher{ 
           FirstName = registerDto.Firstname,
           Surname = registerDto.Surname,
           CongregationId = registerDto.Congregation
         };
-      }
-      _context.Publishers.Add(publisher);
+        _context.Publishers.Add(publisher);
+      }      
 
       user.AssignPublisher(publisher);
       await _context.SaveChangesAsync();
 
-      return new UserDto
+      return new UserTokenDto
       {
         Username = user.UserName,
         Token = _tokenService.CreateToken(user)
@@ -67,7 +68,7 @@ namespace API.Controllers
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult<UserDto>> Register(LoginDto userDetails)
+    public async Task<ActionResult<UserTokenDto>> Register(LoginDto userDetails)
     {
       var user = await _context.Users
         .FirstOrDefaultAsync(user => user.UserName == userDetails.Username.ToLower());
@@ -81,7 +82,7 @@ namespace API.Controllers
         if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid password");
       }
 
-      var userToReturn = _mapper.Map<UserDto>(user);
+      var userToReturn = _mapper.Map<UserTokenDto>(user);
       userToReturn.Token = _tokenService.CreateToken(user);
       return userToReturn;
     }
