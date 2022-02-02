@@ -38,13 +38,18 @@ namespace API.Helpers
               src => src.Role.Name
             )
           );
+        CreateMap<PublisherDto, Publisher>()
+          .ForMember(dest => dest.Congregation, opt => opt.Ignore())
+          .ForMember(dest => dest.Role, opt => opt.Ignore());
         CreateMap<AddCongregationDto, Congregation>();          
         CreateMap<Congregation, CongregationDto>()
           .ForMember(
             dest => dest.Publishers, opt => opt.MapFrom(
               src => src.Publishers.Count()
             )
-          );         
+          );  
+        CreateMap<PublisherUpdateDto, Publisher>();  
+        CreateMap<PublisherDto, PublisherSearchDto>();     
     }
 
   }

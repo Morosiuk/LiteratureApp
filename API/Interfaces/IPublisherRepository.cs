@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
@@ -9,10 +10,11 @@ namespace API.Interfaces
   public interface IPublisherRepository
   {
     void Update(Publisher publisher);
+    void AddPublisher(Publisher publisher);
     Task<bool> SaveAllAsync();
     Task<PublisherDto> GetPublisherAsync(int id);
-    //Task<PublisherDto> GetPublisherAsync(string name, string congregation);
+    Task<ICollection<Publisher>> GetPublishersForUserAsync(int userId);
     Task<PagedList<PublisherDto>> GetPublishersAsync(PublisherParams pubParams);
-    
+    Task<PublisherDto> GetPublisherAsync(PublisherSearchDto publisher);
   }
 }

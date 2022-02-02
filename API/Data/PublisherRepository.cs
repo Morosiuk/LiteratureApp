@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs;
@@ -30,13 +31,14 @@ namespace API.Data
       return _mapper.Map<PublisherDto>(publisher);
     }
 
-    public async Task<PublisherDto> GetPublisherAsync(string name, string congregation)
+    public async Task<PublisherDto> GetPublisherAsync(PublisherSearchDto publisher)
     {
-      var publisher = await _context.Publishers
+      var value = await _context.Publishers
         .FirstOrDefaultAsync(pub => 
-          pub.Congregation.Name.ToLower() == congregation.ToLower() &&
-          pub.FirstName.ToLower() == name.ToLower());
-      return _mapper.Map<PublisherDto>(publisher);
+          pub.Congregation.Name.ToLower() == publisher.Congregation.ToLower() &&
+          pub.FirstName.ToLower() == publisher.Firstname.ToLower() &&
+          pub.Surname.ToLower() == publisher.Surname.ToLower());
+      return _mapper.Map<PublisherDto>(value);
     }
 
     public async Task<PagedList<PublisherDto>> GetPublishersAsync(PublisherParams pubParams)
@@ -61,6 +63,23 @@ namespace API.Data
         query.ProjectTo<PublisherDto>(_mapper.ConfigurationProvider),
         pubParams.PageNumber,
         pubParams.PageSize);
+    }
+
+    public async Task<ICollection<Publisher>> GetPublishersForUserAsync(int userId)
+    {
+      if (userId <= 0) return null;
+
+      return (await _context.Users
+        .Include(u => u.AssignedPublishers)
+        .ThenInclude(ap => ap.Publisher)
+        .FirstOrDefaultAsync(u => u.Id == userId)).AssignedPublishers
+          .Select(ap => ap.Publisher)
+          .ToList();
+    }
+
+    public void AddPublisher(Publisher publisher)
+    {
+      _context.Publishers.Add(publisher);
     }
 
     public async Task<bool> SaveAllAsync()
