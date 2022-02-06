@@ -10,6 +10,7 @@ namespace API.Data
     public DbSet<Publisher> Publishers { get; set; }
     public DbSet<Role> Roles { get; set; }
     public DbSet<Literature> Literature { get; set; }
+    public DbSet<LanguageCodes> LanguageCodes { get; set; }
     public DataContext(DbContextOptions options) : base(options)
     {
 
