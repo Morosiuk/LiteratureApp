@@ -60,9 +60,9 @@ namespace API.Controllers
     [HttpPost("add")]
     public async Task<ActionResult<Congregation>> AddCongregationAsync(AddCongregationDto congregation)
     {
-      if(congregation == null) return BadRequest("No congregation passed");
-      if(congregation.Name == null || congregation.Name.Length == 0) 
-        return BadRequest("No congregation name provided");
+      if(congregation == null) return BadRequest("No congregation provided");
+      if(string.IsNullOrWhiteSpace(congregation.Name)) 
+        return BadRequest("No congregation name provided.");
 
       //Check congregation doesn't already exist
       var existingCong = await _congregationRepo.GetCongregationAsync(congregation.Name);

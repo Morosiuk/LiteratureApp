@@ -50,6 +50,9 @@ namespace API.Helpers
           );  
         CreateMap<PublisherUpdateDto, Publisher>();  
         CreateMap<PublisherDto, PublisherSearchDto>();     
+
+        CreateMap<Literature, LiteratureDto>();
+        CreateMap<LanguageCodeDto, LanguageCode>();
     }
 
   }

@@ -2,7 +2,7 @@ using System;
 
 namespace API.Entities
 {
-  public class LanguageCodes
+  public class LanguageCode
   {
     public int Id { get; set; }
     public string Code { get; set; }

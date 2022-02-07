@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using API.Data;
 using API.DTOs;
 using API.Entities;
+using API.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,58 +12,59 @@ namespace API.Controllers
 {
   public class LiteratureController : BaseApiController
   {
-    private readonly DataContext _context;
-    public LiteratureController(DataContext context)
+    private readonly ILiteratureRepository _litRepo;
+
+    public LiteratureController(ILiteratureRepository litRepo)
     {
-      _context = context;
+      _litRepo = litRepo;
     }
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Literature>>> GetLiteratureAsync()
     {
-      return await _context.Literature.ToListAsync();
+      var results = await _litRepo.GetLiteratureAsync();
+      return Ok(results);
+    }
+
+    [HttpGet("codes")]
+    public async Task<ActionResult<IEnumerable<LanguageCode>>> GetLanguageCodesAsync()
+    {
+      var results = await _litRepo.GetLanguageCodesAsync();
+      return Ok(results);
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<Literature>> GetLiteratureAsync(int Id)
     {
-      return await _context.Literature.FindAsync(Id);
-    }
+      if (Id <= 0) return BadRequest("Invalid literature request");
 
+      return await _litRepo.GetLiteratureAsync(Id);
+    }
 
     [HttpPost("add")]
     public async Task<ActionResult<bool>> AddLiteratureItem(LiteratureDto literatureDto)
     {
-      if (await LiteratureExists(literatureDto)) return BadRequest("Literature already exists.");
+      if (literatureDto == null) return BadRequest("No literature provided");
+      if (string.IsNullOrWhiteSpace(literatureDto.Name)) return BadRequest("No literature name provded.");
       
-      var literature = new Literature
-      {
-        Name = literatureDto.Name,
-        FullName = literatureDto.FullName,
-        ItemId = literatureDto.ItemId,
-        Format = literatureDto.Format,
-        Symbol = literatureDto.Symbol
-      };
+      _litRepo.AddLiteratureAsync(literatureDto);
+      var result = await _litRepo.SaveAllAsync();
+      if (result) return Ok();
 
-      _context.Literature.Add(literature);
-      return await _context.SaveChangesAsync() > 0;
+      return BadRequest("Failed to add literature.");
     }
 
-    private async Task<bool> LiteratureExists(LiteratureDto literatureDto)
+    [HttpPost("codes/add")]
+    public async Task<ActionResult<bool>> AddLanguageCode(LanguageCodeDto languageCode)
     {
-      //Check symbol is unique
-      var existingSymbol = await _context.Literature
-        .AnyAsync(lit => lit.Symbol == literatureDto.Symbol.ToLower());
-      if (existingSymbol) return true;
+      if (languageCode == null) return BadRequest("No language code provided");
+      if (string.IsNullOrWhiteSpace(languageCode.Language)) return BadRequest("No language provded.");
+      
+      _litRepo.AddLanguageCode(languageCode);
+      var result = await _litRepo.SaveAllAsync();
+      if (result) return Ok();
 
-      //Check ItemId is unique (if provided)
-      if (literatureDto.ItemId != null) 
-      {
-        var existingItem = await _context.Literature
-          .AnyAsync(lit => lit.ItemId == literatureDto.ItemId);
-        if (existingItem) return true;
-      }
-      return false;
+      return BadRequest("Failed to add literature.");
     }
   }
 }

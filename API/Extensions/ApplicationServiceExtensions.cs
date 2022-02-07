@@ -1,4 +1,5 @@
 using API.Data;
+using API.Data.Repositories;
 using API.Helpers;
 using API.Interfaces;
 using API.Services;
@@ -16,6 +17,7 @@ namespace API.Extensions
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ICongregationRepository, CongregationRepository>();
         services.AddScoped<IPublisherRepository, PublisherRepository>();
+        services.AddScoped<ILiteratureRepository, LiteratureRepository>();
         services.AddScoped<LogUserActivity>();
         services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
         services.AddDbContext<DataContext>(opt =>

@@ -1,0 +1,123 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using API.DTOs;
+using API.Entities;
+using API.Interfaces;
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+
+namespace API.Data.Repositories
+{
+  public class LiteratureRepository : ILiteratureRepository
+  {
+    private readonly DataContext _context;
+    private readonly IMapper _mapper;
+
+    public LiteratureRepository(DataContext context, IMapper mapper)
+    {
+      _context = context;
+      _mapper = mapper;
+    }
+
+    public void AddLanguageCode(LanguageCodeDto code)
+    {
+      var newCode = _mapper.Map<LanguageCode>(code);
+      _context.LanguageCodes.Add(newCode);
+    }
+
+    public void AddLiteratureAsync(LiteratureDto literature)
+    { 
+      var newLiterature = _mapper.Map<Literature>(literature);
+      _context.Literature.Add(newLiterature);
+    }
+
+    public void DeleteLanguageCode(LanguageCodeDto code)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void DeleteLanguageCode(LanguageCode code)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void DeleteLiterature(Literature literature)
+    {
+      throw new NotImplementedException();
+    }
+
+    public async Task<ICollection<LanguageCode>> GetLanguageCodesAsync(string language)
+    {
+      return await _context.LanguageCodes
+        .Where(code => EF.Functions.Like(code.Language, $"%{language}%"))
+        .ToListAsync();
+    }
+
+    public async Task<LanguageCode> GetLanguageCodeAsync(string code)
+    {
+      return await _context.LanguageCodes.FirstOrDefaultAsync(c => c.Code.ToLower() == code.ToLower());
+    }
+
+    public async Task<ICollection<LanguageCode>> GetLanguageCodesAsync()
+    {
+      return await _context.LanguageCodes.ToListAsync();
+    }
+
+    public async Task<ICollection<Literature>> GetLiteratureAsync(string name)
+    {
+      return await _context.Literature
+        .Where(lit => EF.Functions.Like(lit.Name, $"%{name}%"))
+        .ToListAsync();
+    }
+
+    public async Task<Literature> GetLiteratureAsync(int id)
+    {
+      return await _context.Literature.FindAsync(id);
+    }
+
+    public async Task<ICollection<Literature>> GetLiteratureAsync()
+    {
+      return await _context.Literature.ToListAsync();
+    }
+
+    public async Task<Literature> GetLiteratureBySymbolAsync(string symbol)
+    {
+      return await _context.Literature
+        .FirstOrDefaultAsync(lit => lit.Symbol.ToLower() == symbol.ToLower());
+    }
+
+    public async Task<bool> SaveAllAsync()
+    {
+      return await _context.SaveChangesAsync() > 0;
+    }
+
+    public void UpdateLanguageCode(LanguageCode code)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void UpdateLiterature(Literature literature)
+    {
+      throw new NotImplementedException();
+    }
+
+    private async Task<bool> LiteratureExists(LiteratureDto literatureDto)
+    {
+      //Check symbol is unique
+      var existingSymbol = await _context.Literature
+        .AnyAsync(lit => lit.Symbol == literatureDto.Symbol.ToLower());
+      if (existingSymbol) return true;
+
+      //Check ItemId is unique (if provided)
+      if (literatureDto.ItemId != null) 
+      {
+        var existingItem = await _context.Literature
+          .AnyAsync(lit => lit.ItemId == literatureDto.ItemId);
+        if (existingItem) return true;
+      }
+      return false;
+    }
+  }
+}
