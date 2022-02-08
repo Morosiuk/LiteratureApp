@@ -40,12 +40,12 @@ namespace API.Data.Repositories
 
     public void DeleteLanguageCode(LanguageCode code)
     {
-      throw new NotImplementedException();
+      _context.LanguageCodes.Remove(code);
     }
 
     public void DeleteLiterature(Literature literature)
     {
-      throw new NotImplementedException();
+      _context.Literature.Remove(literature);
     }
 
     public async Task<ICollection<LanguageCode>> GetLanguageCodesAsync(string language)
@@ -95,12 +95,12 @@ namespace API.Data.Repositories
 
     public void UpdateLanguageCode(LanguageCode code)
     {
-      throw new NotImplementedException();
+      _context.Entry(code).State = EntityState.Modified;
     }
 
     public void UpdateLiterature(Literature literature)
     {
-      throw new NotImplementedException();
+      _context.Entry(literature).State = EntityState.Modified;
     }
 
     private async Task<bool> LiteratureExists(LiteratureDto literatureDto)
@@ -118,6 +118,11 @@ namespace API.Data.Repositories
         if (existingItem) return true;
       }
       return false;
+    }
+
+    public async Task<LanguageCode> GetLanguageCodeAsync(int id)
+    {
+      return await _context.LanguageCodes.FindAsync(id);
     }
   }
 }

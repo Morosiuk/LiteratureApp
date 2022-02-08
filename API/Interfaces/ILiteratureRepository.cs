@@ -20,6 +20,7 @@ namespace API.Interfaces
     void UpdateLanguageCode(LanguageCode code);
     Task<ICollection<LanguageCode>> GetLanguageCodesAsync();
     Task<ICollection<LanguageCode>> GetLanguageCodesAsync(string language);
+    Task<LanguageCode> GetLanguageCodeAsync(int id);
     Task<LanguageCode> GetLanguageCodeAsync(string code);
     Task<bool> SaveAllAsync();
   }

@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using API.Data;
 using API.DTOs;
 using API.Entities;
 using API.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
@@ -57,14 +55,47 @@ namespace API.Controllers
     [HttpPost("codes/add")]
     public async Task<ActionResult<bool>> AddLanguageCode(LanguageCodeDto languageCode)
     {
-      if (languageCode == null) return BadRequest("No language code provided");
+      if (languageCode == null) return BadRequest("No language code provided.");
       if (string.IsNullOrWhiteSpace(languageCode.Language)) return BadRequest("No language provded.");
       
       _litRepo.AddLanguageCode(languageCode);
       var result = await _litRepo.SaveAllAsync();
       if (result) return Ok();
 
-      return BadRequest("Failed to add literature.");
+      return BadRequest("Failed to add language code.");
+    }
+
+    [HttpPut("codes/update")]
+    public async Task<ActionResult> UpdateLanguageCodeAsync(UpdateLanguageCodeDto updatedLanguageCode)
+    {
+      if (updatedLanguageCode == null) return BadRequest("No language code provided.");
+      if (updatedLanguageCode.Id <= 0) return BadRequest("Invalid language code.");
+      if (string.IsNullOrWhiteSpace(updatedLanguageCode.Language)) return BadRequest("No language provided.");
+
+      var languageCode = await _litRepo.GetLanguageCodeAsync(updatedLanguageCode.Id);
+      if (languageCode == null) return BadRequest("Unable to find relevant language code.");
+
+      languageCode.Language = updatedLanguageCode.Language;
+      languageCode.Code = updatedLanguageCode.Code;
+      _litRepo.UpdateLanguageCode(languageCode);
+
+      var result = await _litRepo.SaveAllAsync();
+      if (result) return Ok("Language code successfully updated.");
+
+      return BadRequest("Failed to update language code.");
+    }
+
+    [HttpDelete("codes/delete/{codeId}")]
+    public async Task<ActionResult> DeleteLanguageCode(int codeId)
+    {
+      var code = await _litRepo.GetLanguageCodeAsync(codeId);
+      if (code == null) return NotFound("Cannot find language code.");
+
+      _litRepo.DeleteLanguageCode(code);
+      var result = await _litRepo.SaveAllAsync();
+      if (result) return Ok();
+
+      return BadRequest("Failed to delete language code.");
     }
   }
 }
