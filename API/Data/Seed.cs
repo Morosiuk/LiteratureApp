@@ -35,8 +35,13 @@ namespace API.Data
           DateCreated=DateTime.Now.AddDays(-175)}
       }.ForEach(cong => context.Congregations.AddAsync(cong));
 
+      //Import Language Codes
+      var importFile = await System.IO.File.ReadAllTextAsync("Data/SeedLanguageCodes.json");
+      var languageCodes = JsonSerializer.Deserialize<List<LanguageCode>>(importFile);
+      context.LanguageCodes.AddRange(languageCodes);
+
       //Import publishers
-      var importFile = await System.IO.File.ReadAllTextAsync("Data/PublisherData.Users.json");
+      importFile = await System.IO.File.ReadAllTextAsync("Data/SeedPublishers.json");
       var publishers = JsonSerializer.Deserialize<List<Publisher>>(importFile);
       context.Publishers.AddRange(publishers);
 

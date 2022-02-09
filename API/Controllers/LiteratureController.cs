@@ -24,13 +24,6 @@ namespace API.Controllers
       return Ok(results);
     }
 
-    [HttpGet("codes")]
-    public async Task<ActionResult<IEnumerable<LanguageCode>>> GetLanguageCodesAsync()
-    {
-      var results = await _litRepo.GetLanguageCodesAsync();
-      return Ok(results);
-    }
-
     [HttpGet("{id}")]
     public async Task<ActionResult<Literature>> GetLiteratureAsync(int Id)
     {
@@ -52,12 +45,29 @@ namespace API.Controllers
       return BadRequest("Failed to add literature.");
     }
 
+    [HttpGet("codes")]
+    public async Task<ActionResult<IEnumerable<LanguageCode>>> GetLanguageCodesAsync()
+    {
+      var results = await _litRepo.GetLanguageCodesAsync();
+      return Ok(results);
+    }
+
+    [HttpGet("codes/{code}")]
+    public async Task<ActionResult<LanguageCode>> GetLanguageCode(string code)
+    {
+      if (string.IsNullOrWhiteSpace(code)) return BadRequest("Invalid code.");
+
+      return await _litRepo.GetLanguageCodeAsync(code);
+    }
+
     [HttpPost("codes/add")]
     public async Task<ActionResult<bool>> AddLanguageCode(LanguageCodeDto languageCode)
     {
       if (languageCode == null) return BadRequest("No language code provided.");
-      if (string.IsNullOrWhiteSpace(languageCode.Language)) return BadRequest("No language provded.");
-      
+      if (string.IsNullOrWhiteSpace(languageCode.Language)) return BadRequest("No language provided.");
+      if (string.IsNullOrWhiteSpace(languageCode.Code)) return BadRequest("No code provided.");
+      if (await _litRepo.GetLanguageCodeAsync(languageCode.Code) != null) return BadRequest("Language code already exists.");
+
       _litRepo.AddLanguageCode(languageCode);
       var result = await _litRepo.SaveAllAsync();
       if (result) return Ok();
@@ -71,10 +81,10 @@ namespace API.Controllers
       if (updatedLanguageCode == null) return BadRequest("No language code provided.");
       if (updatedLanguageCode.Id <= 0) return BadRequest("Invalid language code.");
       if (string.IsNullOrWhiteSpace(updatedLanguageCode.Language)) return BadRequest("No language provided.");
-
+      //Lookup existing code
       var languageCode = await _litRepo.GetLanguageCodeAsync(updatedLanguageCode.Id);
       if (languageCode == null) return BadRequest("Unable to find relevant language code.");
-
+      //Update values
       languageCode.Language = updatedLanguageCode.Language;
       languageCode.Code = updatedLanguageCode.Code;
       _litRepo.UpdateLanguageCode(languageCode);
@@ -85,13 +95,16 @@ namespace API.Controllers
       return BadRequest("Failed to update language code.");
     }
 
-    [HttpDelete("codes/delete/{codeId}")]
-    public async Task<ActionResult> DeleteLanguageCode(int codeId)
+    [HttpDelete("codes/delete/{code}")]
+    public async Task<ActionResult> DeleteLanguageCode(string code)
     {
-      var code = await _litRepo.GetLanguageCodeAsync(codeId);
-      if (code == null) return NotFound("Cannot find language code.");
+      if (code == null) return BadRequest("No language code provided.");
+      if (string.IsNullOrWhiteSpace(code)) return BadRequest("No language code provided.");
 
-      _litRepo.DeleteLanguageCode(code);
+      var languageCode = await _litRepo.GetLanguageCodeAsync(code);
+      if (languageCode == null) return NotFound("Cannot find language code.");
+
+      _litRepo.DeleteLanguageCode(languageCode);
       var result = await _litRepo.SaveAllAsync();
       if (result) return Ok();
 

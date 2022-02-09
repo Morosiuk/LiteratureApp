@@ -13,7 +13,14 @@ namespace API.Data
     public DbSet<LanguageCode> LanguageCodes { get; set; }
     public DataContext(DbContextOptions options) : base(options)
     {
+      
+    }
 
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+      modelBuilder.Entity<LanguageCode>()
+        .HasIndex(i => i.Code)
+        .IsUnique();
     }
   }
 }
