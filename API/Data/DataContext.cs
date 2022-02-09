@@ -18,9 +18,12 @@ namespace API.Data
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+      modelBuilder.Entity<Literature>()
+        .HasIndex(i => i.Symbol)
+        .IsUnique();
       modelBuilder.Entity<LanguageCode>()
         .HasIndex(i => i.Code)
-        .IsUnique();
+        .IsUnique();        
     }
   }
 }

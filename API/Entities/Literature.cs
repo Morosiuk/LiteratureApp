@@ -9,7 +9,6 @@ namespace API.Entities
    public string FullName { get; set; }
    public int? ItemId { get; set; }
    [Required] public string Symbol { get; set; }
-   public string Language { get; set; }
-   public string Format { get; set; }
+   public int? EditionsPerYear { get; set; }
   }
 }

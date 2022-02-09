@@ -1,51 +1,41 @@
 [
   {
-      "id": 1,
       "code": "E",
       "language": "English"
   },
   {
-      "id": 2,
       "code": "X",
       "language": "German"
   },
   {
-      "id": 3,
       "code": "S",
       "language": "Spanish"
   },
   {
-      "id": 4,
       "code": "BL",
       "language": "Bulgarian"
   },
   {
-      "id": 5,
       "code": "H",
       "language": "Hungarian"
   },
   {
-      "id": 6,
       "code": "CA",
       "language": "Shona"
   },
   {
-      "id": 7,
       "code": "GU",
       "language": "Gujarati"
   },
   {
-      "id": 8,
       "code": "HI",
       "language": "Hindi"
   },
   {
-      "id": 9,
       "code": "M",
       "language": "Romanian"
   },
   {
-      "id": 10,
       "code": "MY",
       "language": "Malayalam"
   }

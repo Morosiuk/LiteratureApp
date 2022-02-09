@@ -1,0 +1,121 @@
+[
+  {
+      "name": "Awake!",
+      "fullName": "Awake!",
+      "itemId": null,
+      "symbol": "g",
+      "editionsPerYear": 3
+  },
+  {
+      "name": "Workbook",
+      "fullName": "Our Christian Life and Ministry--Meeting Workbook",
+      "itemId": null,
+      "symbol": "mwb",
+      "editionsPerYear": 6
+  },
+  {
+      "name": "Bible - Study Edtion",
+      "fullName": "New World Translation of the Holy Scriptures (Study Edition) Matthew - Acts",
+      "itemId": 5144,
+      "symbol": "nwtsty",
+      "editionsPerYear": null
+  },
+  {
+      "name": "Memorial Invite",
+      "fullName": "Memorial Invitation Leaflet",
+      "itemId": 7962,
+      "symbol": "mi",
+      "editionsPerYear": 1
+  },
+  {
+      "name": "Watchtower",
+      "fullName": "Watchtower (Study)",
+      "itemId": null,
+      "symbol": "w",
+      "editionsPerYear": 12
+  },
+  {
+      "name": "Watchtower",
+      "fullName": "Watchtower (Public)",
+      "itemId": null,
+      "symbol": "wp",
+      "editionsPerYear": 3
+  },
+  {
+      "name": "Bible - Large",
+      "fullName": "New World Translation of the Holy Scriptures (large size)",
+      "itemId": 5141,
+      "symbol": "nwtls",
+      "editionsPerYear": null
+  },
+  {
+      "name": "Tract - Bible",
+      "fullName": "How Do You View the Bible? (Tract No. 30)",
+      "itemId": 7130,
+      "symbol": "T-30",
+      "editionsPerYear": null
+  },
+  {
+      "name": "Tract - Future",
+      "fullName": "How Do You View the Future? (Tract No. 31)",
+      "itemId": 7131,
+      "symbol": "T-31",
+      "editionsPerYear": null
+  },
+  {
+      "name": "Tract - Family Life",
+      "fullName": "What Is the Key to Happy Family Life? (Tract No. 32)",
+      "itemId": 7132,
+      "symbol": "T-32",
+      "editionsPerYear": null
+  },
+  {
+      "name": "Tract - Controls the World",
+      "fullName": "Who Really Controls the World? (Tract No. 33)",
+      "itemId": 7133,
+      "symbol": "T-33",
+      "editionsPerYear": null
+  },
+  {
+      "name": "Tract - Suffering",
+      "fullName": "Will Suffering Ever End? (Tract No. 34)",
+      "itemId": 7134,
+      "symbol": "T-34",
+      "editionsPerYear": null
+  },
+  {
+      "name": "Tract - Dead",
+      "fullName": "Can the Dead Really Live Again? (Tract No. 35)",
+      "itemId": 7135,
+      "symbol": "T-35",
+      "editionsPerYear": null
+  },
+  {
+      "name": "Tract - Kingdom",
+      "fullName": "What Is the Kingdom of God? (Tract No. 36)",
+      "itemId": 7136,
+      "symbol": "T-36",
+      "editionsPerYear": null
+  },
+  {
+      "name": "Tract - Questions",
+      "fullName": "Where Can We Find Answers to Life's Big Questions? (Tract No. 37)",
+      "itemId": 7137,
+      "symbol": "T-37",
+      "editionsPerYear": null
+  },
+  {
+      "name": "Contact Card jw.org",
+      "fullName": "Contact card for jw.org",
+      "itemId": 8524,
+      "symbol": "jwcd4",
+      "editionsPerYear": null
+  },
+  {
+      "name": "Bible",
+      "fullName": "New World Translation of the Holy Scriptures",
+      "itemId": 5140,
+      "symbol": "nwt",
+      "editionsPerYear": null
+  }
+]

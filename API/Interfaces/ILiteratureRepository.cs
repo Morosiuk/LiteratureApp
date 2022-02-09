@@ -8,14 +8,15 @@ namespace API.Interfaces
 {
   public interface ILiteratureRepository
   {
-    void AddLiteratureAsync(LiteratureDto literature);
+    Literature AddLiterature(LiteratureDto literature);
     void DeleteLiterature(Literature literature);
     void UpdateLiterature(Literature literature);
     Task<ICollection<Literature>> GetLiteratureAsync();
     Task<Literature> GetLiteratureAsync(int id);
-    Task<ICollection<Literature>> GetLiteratureAsync(string name);
     Task<Literature> GetLiteratureBySymbolAsync(string symbol);
-    void AddLanguageCode(LanguageCodeDto code);
+    Task<Literature> GetLiteratureByItemAsync(int itemId);
+    Task<ICollection<Literature>> GetLiteratureAsync(string name);
+    LanguageCode AddLanguageCode(LanguageCodeDto code);
     void DeleteLanguageCode(LanguageCode code);
     void UpdateLanguageCode(LanguageCode code);
     Task<ICollection<LanguageCode>> GetLanguageCodesAsync();

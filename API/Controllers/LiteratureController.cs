@@ -24,7 +24,7 @@ namespace API.Controllers
       return Ok(results);
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public async Task<ActionResult<Literature>> GetLiteratureAsync(int Id)
     {
       if (Id <= 0) return BadRequest("Invalid literature request");
@@ -32,17 +32,78 @@ namespace API.Controllers
       return await _litRepo.GetLiteratureAsync(Id);
     }
 
+    [HttpGet("{symbol}")]
+    public async Task<ActionResult<Literature>> GetLiteratureAsync(string symbol)
+    {
+      if (symbol == null || string.IsNullOrWhiteSpace(symbol)) 
+        return BadRequest("No lookup value provided.");
+
+      return await _litRepo.GetLiteratureBySymbolAsync(symbol);
+    }
+
+    [HttpGet("item/{itemId}")]
+    public async Task<ActionResult<Literature>> GetLiteratureFromItemAsync(int itemId)
+    {
+      if (itemId <= 0) return BadRequest("No Item ID provided.");
+
+      return await _litRepo.GetLiteratureByItemAsync(itemId);
+    }
+
     [HttpPost("add")]
-    public async Task<ActionResult<bool>> AddLiteratureItem(LiteratureDto literatureDto)
+    public async Task<ActionResult<bool>> AddLiterature(LiteratureDto literatureDto)
     {
       if (literatureDto == null) return BadRequest("No literature provided");
-      if (string.IsNullOrWhiteSpace(literatureDto.Name)) return BadRequest("No literature name provded.");
+      if (string.IsNullOrWhiteSpace(literatureDto.Name)) 
+        return BadRequest("No literature name provded.");
       
-      _litRepo.AddLiteratureAsync(literatureDto);
+      if (await _litRepo.GetLiteratureBySymbolAsync(literatureDto.Symbol) != null)
+        return BadRequest("Literature with this symbol already exists.");
+
+      var literature = _litRepo.AddLiterature(literatureDto);
+      var result = await _litRepo.SaveAllAsync();
+      if (result) return Ok(literature);
+
+      return BadRequest("Failed to add literature.");
+    }
+
+    [HttpPut("update")]
+    public async Task<ActionResult> UpdateLiteratureAsync(UpdateLiteratureDto updatedLiterature)
+    {
+      if (updatedLiterature == null) return BadRequest("No literature provided.");
+      if (updatedLiterature.Id <= 0) return BadRequest("Invalid literature.");
+      if (string.IsNullOrWhiteSpace(updatedLiterature.Symbol)) return BadRequest("No literature symbol.");
+      if (string.IsNullOrWhiteSpace(updatedLiterature.Name)) return BadRequest("No literature name.");
+      //Lookup existing code
+      var literature = await _litRepo.GetLiteratureAsync(updatedLiterature.Id);
+      if (literature == null) return BadRequest("Unable to find literature.");
+      //Update values
+      literature.Name = updatedLiterature.Name;
+      literature.FullName = updatedLiterature.FullName;
+      literature.Symbol = updatedLiterature.Symbol;
+      literature.EditionsPerYear = updatedLiterature.EditionsPerYear;
+      literature.ItemId = updatedLiterature.ItemId;
+      _litRepo.UpdateLiterature(literature);
+
+      var result = await _litRepo.SaveAllAsync();
+      if (result) return Ok("Literature successfully updated.");
+
+      return BadRequest("Failed to update literature.");
+    }
+
+    [HttpDelete("delete/{symbol}")]
+    public async Task<ActionResult> DeleteLiterature(string symbol)
+    {
+      if (symbol == null) return BadRequest("No literature provided.");
+      if (string.IsNullOrWhiteSpace(symbol)) return BadRequest("No literature symbol provided.");
+
+      var literature = await _litRepo.GetLiteratureBySymbolAsync(symbol);
+      if (literature == null) return NotFound("Cannot find literature.");
+
+      _litRepo.DeleteLiterature(literature);
       var result = await _litRepo.SaveAllAsync();
       if (result) return Ok();
 
-      return BadRequest("Failed to add literature.");
+      return BadRequest("Failed to delete literature.");
     }
 
     [HttpGet("codes")]
@@ -68,9 +129,9 @@ namespace API.Controllers
       if (string.IsNullOrWhiteSpace(languageCode.Code)) return BadRequest("No code provided.");
       if (await _litRepo.GetLanguageCodeAsync(languageCode.Code) != null) return BadRequest("Language code already exists.");
 
-      _litRepo.AddLanguageCode(languageCode);
+      var createdCode = _litRepo.AddLanguageCode(languageCode);
       var result = await _litRepo.SaveAllAsync();
-      if (result) return Ok();
+      if (result) return Ok(createdCode);
 
       return BadRequest("Failed to add language code.");
     }

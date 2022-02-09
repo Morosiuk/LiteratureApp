@@ -21,21 +21,18 @@ namespace API.Data.Repositories
       _mapper = mapper;
     }
 
-    public void AddLanguageCode(LanguageCodeDto code)
+    public LanguageCode AddLanguageCode(LanguageCodeDto code)
     {
       var newCode = _mapper.Map<LanguageCode>(code);
       _context.LanguageCodes.Add(newCode);
+      return newCode;
     }
 
-    public void AddLiteratureAsync(LiteratureDto literature)
+    public Literature AddLiterature(LiteratureDto literature)
     { 
       var newLiterature = _mapper.Map<Literature>(literature);
       _context.Literature.Add(newLiterature);
-    }
-
-    public void DeleteLanguageCode(LanguageCodeDto code)
-    {
-      throw new NotImplementedException();
+      return newLiterature;
     }
 
     public void DeleteLanguageCode(LanguageCode code)
@@ -86,6 +83,12 @@ namespace API.Data.Repositories
     {
       return await _context.Literature
         .FirstOrDefaultAsync(lit => lit.Symbol.ToLower() == symbol.ToLower());
+    }
+
+    public async Task<Literature> GetLiteratureByItemAsync(int itemId)
+    {
+      return await _context.Literature
+        .FirstOrDefaultAsync(lit => lit.ItemId == itemId);
     }
 
     public async Task<bool> SaveAllAsync()

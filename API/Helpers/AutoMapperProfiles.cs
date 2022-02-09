@@ -51,7 +51,7 @@ namespace API.Helpers
         CreateMap<PublisherUpdateDto, Publisher>();  
         CreateMap<PublisherDto, PublisherSearchDto>();     
 
-        CreateMap<Literature, LiteratureDto>();
+        CreateMap<Literature, LiteratureDto>().ReverseMap();
         CreateMap<LanguageCodeDto, LanguageCode>();
     }
 
