@@ -19,59 +19,16 @@ namespace API.Data.Repositories
     {
       _context = context;
       _mapper = mapper;
-    }
+    } 
 
-    public LanguageCode AddLanguageCode(LanguageCodeDto code)
+    public async Task<bool> SaveAllAsync()
     {
-      var newCode = _mapper.Map<LanguageCode>(code);
-      _context.LanguageCodes.Add(newCode);
-      return newCode;
+      return await _context.SaveChangesAsync() > 0;
     }
 
-    public Literature AddLiterature(LiteratureDto literature)
-    { 
-      var newLiterature = _mapper.Map<Literature>(literature);
-      _context.Literature.Add(newLiterature);
-      return newLiterature;
-    }
-
-    public void DeleteLanguageCode(LanguageCode code)
-    {
-      _context.LanguageCodes.Remove(code);
-    }
-
-    public void DeleteLiterature(Literature literature)
-    {
-      _context.Literature.Remove(literature);
-    }
-
-    public async Task<LanguageCode> GetLanguageCodeAsync(string code)
-    {
-      return await _context.LanguageCodes
-        .FirstOrDefaultAsync(c => c.Code.ToLower() == code.ToLower());
-    }
-
-    public async Task<PagedList<LanguageCode>> GetLanguageCodesAsync(
-      LanguageParams languageParams)
-    {
-      var query = _context.LanguageCodes
-        .AsNoTracking()
-        .AsQueryable();
-
-      query = query.Where(lang => 
-        EF.Functions.Like(lang.Language, $@"%{languageParams.Keyword}%"));
-      
-      query = languageParams.OrderBy switch
-      {
-        "code" => query.OrderBy(lit => lit.Code),
-        _ => query.OrderBy(lit => lit.Language)
-      };
-
-      return await PagedList<LanguageCode>.CreateAsync(
-        query, 
-        languageParams.PageNumber,
-        languageParams.PageSize);
-    }
+    //########################################
+    //##############LITERATURE################
+    //########################################
 
     public async Task<Literature> GetLiteratureAsync(int id)
     {
@@ -114,21 +71,6 @@ namespace API.Data.Repositories
         litParams.PageSize);
     }
 
-    public async Task<bool> SaveAllAsync()
-    {
-      return await _context.SaveChangesAsync() > 0;
-    }
-
-    public void UpdateLanguageCode(LanguageCode code)
-    {
-      _context.Entry(code).State = EntityState.Modified;
-    }
-
-    public void UpdateLiterature(Literature literature)
-    {
-      _context.Entry(literature).State = EntityState.Modified;
-    }
-
     private async Task<bool> LiteratureExists(LiteratureDto literatureDto)
     {
       //Check symbol is unique
@@ -145,9 +87,76 @@ namespace API.Data.Repositories
       return false;
     }
 
+    public Literature AddLiterature(LiteratureDto literature)
+    { 
+      var newLiterature = _mapper.Map<Literature>(literature);
+      _context.Literature.Add(newLiterature);
+      return newLiterature;
+    }    
+
+    public void UpdateLiterature(Literature literature)
+    {
+      _context.Entry(literature).State = EntityState.Modified;
+    }
+
+    public void DeleteLiterature(Literature literature)
+    {
+      _context.Literature.Remove(literature);
+    }
+
+    //########################################
+    //############LANGAUGE CODES##############
+    //########################################
+
     public async Task<LanguageCode> GetLanguageCodeAsync(int id)
     {
       return await _context.LanguageCodes.FindAsync(id);
     }
+
+    public async Task<LanguageCode> GetLanguageCodeAsync(string code)
+    {
+      return await _context.LanguageCodes
+        .FirstOrDefaultAsync(c => c.Code.ToLower() == code.ToLower());
+    }
+
+    public async Task<PagedList<LanguageCode>> GetLanguageCodesAsync(
+      LanguageParams languageParams)
+    {
+      var query = _context.LanguageCodes
+        .AsNoTracking()
+        .AsQueryable();
+
+      query = query.Where(lang => 
+        EF.Functions.Like(lang.Language, $@"%{languageParams.Keyword}%"));
+      
+      query = languageParams.OrderBy switch
+      {
+        "code" => query.OrderBy(lit => lit.Code),
+        _ => query.OrderBy(lit => lit.Language)
+      };
+
+      return await PagedList<LanguageCode>.CreateAsync(
+        query, 
+        languageParams.PageNumber,
+        languageParams.PageSize);
+    }
+
+    public LanguageCode AddLanguageCode(LanguageCodeDto code)
+    {
+      var newCode = _mapper.Map<LanguageCode>(code);
+      _context.LanguageCodes.Add(newCode);
+      return newCode;
+    }
+
+    public void UpdateLanguageCode(LanguageCode code)
+    {
+      _context.Entry(code).State = EntityState.Modified;
+    }
+
+    public void DeleteLanguageCode(LanguageCode code)
+    {
+      _context.LanguageCodes.Remove(code);
+    }    
+
   }
 }
