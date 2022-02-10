@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace API.Data.Migrations
 {
-    public partial class Initial : Migration
+    public partial class IntialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -23,6 +23,20 @@ namespace API.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "LanguageCodes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Code = table.Column<string>(type: "TEXT", nullable: false),
+                    Language = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LanguageCodes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Literature",
                 columns: table => new
                 {
@@ -32,8 +46,7 @@ namespace API.Data.Migrations
                     FullName = table.Column<string>(type: "TEXT", nullable: true),
                     ItemId = table.Column<int>(type: "INTEGER", nullable: true),
                     Symbol = table.Column<string>(type: "TEXT", nullable: false),
-                    Language = table.Column<string>(type: "TEXT", nullable: true),
-                    Format = table.Column<string>(type: "TEXT", nullable: true)
+                    EditionsPerYear = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -138,6 +151,18 @@ namespace API.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_LanguageCodes_Code",
+                table: "LanguageCodes",
+                column: "Code",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Literature_Symbol",
+                table: "Literature",
+                column: "Symbol",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Publishers_CongregationId",
                 table: "Publishers",
                 column: "CongregationId");
@@ -152,6 +177,9 @@ namespace API.Data.Migrations
         {
             migrationBuilder.DropTable(
                 name: "AppUserPublisher");
+
+            migrationBuilder.DropTable(
+                name: "LanguageCodes");
 
             migrationBuilder.DropTable(
                 name: "Literature");

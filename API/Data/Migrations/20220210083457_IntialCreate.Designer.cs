@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220120084813_Initial")]
-    partial class Initial
+    [Migration("20220210083457_IntialCreate")]
+    partial class IntialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -90,23 +90,41 @@ namespace API.Data.Migrations
                     b.ToTable("Congregations");
                 });
 
+            modelBuilder.Entity("API.Entities.LanguageCode", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.ToTable("LanguageCodes");
+                });
+
             modelBuilder.Entity("API.Entities.Literature", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Format")
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("EditionsPerYear")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("FullName")
                         .HasColumnType("TEXT");
 
                     b.Property<int?>("ItemId")
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("Language")
-                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -117,6 +135,9 @@ namespace API.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Symbol")
+                        .IsUnique();
 
                     b.ToTable("Literature");
                 });

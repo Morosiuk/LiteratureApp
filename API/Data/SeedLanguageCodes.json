@@ -1,42 +1,42 @@
 [
   {
-      "code": "E",
-      "language": "English"
+      "Code": "E",
+      "Language": "English"
   },
   {
-      "code": "X",
-      "language": "German"
+      "Code": "X",
+      "Language": "German"
   },
   {
-      "code": "S",
-      "language": "Spanish"
+      "Code": "S",
+      "Language": "Spanish"
   },
   {
-      "code": "BL",
-      "language": "Bulgarian"
+      "Code": "BL",
+      "Language": "Bulgarian"
   },
   {
-      "code": "H",
-      "language": "Hungarian"
+      "Code": "H",
+      "Language": "Hungarian"
   },
   {
-      "code": "CA",
-      "language": "Shona"
+      "Code": "CA",
+      "Language": "Shona"
   },
   {
-      "code": "GU",
-      "language": "Gujarati"
+      "Code": "GU",
+      "Language": "Gujarati"
   },
   {
-      "code": "HI",
-      "language": "Hindi"
+      "Code": "HI",
+      "Language": "Hindi"
   },
   {
-      "code": "M",
-      "language": "Romanian"
+      "Code": "M",
+      "Language": "Romanian"
   },
   {
-      "code": "MY",
-      "language": "Malayalam"
+      "Code": "MY",
+      "Language": "Malayalam"
   }
 ]
