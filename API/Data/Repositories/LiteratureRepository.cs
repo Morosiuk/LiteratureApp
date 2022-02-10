@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs;
@@ -46,21 +45,32 @@ namespace API.Data.Repositories
       _context.Literature.Remove(literature);
     }
 
-    public async Task<ICollection<LanguageCode>> GetLanguageCodesAsync(string language)
-    {
-      return await _context.LanguageCodes
-        .Where(code => EF.Functions.Like(code.Language, $"%{language}%"))
-        .ToListAsync();
-    }
-
     public async Task<LanguageCode> GetLanguageCodeAsync(string code)
     {
-      return await _context.LanguageCodes.FirstOrDefaultAsync(c => c.Code.ToLower() == code.ToLower());
+      return await _context.LanguageCodes
+        .FirstOrDefaultAsync(c => c.Code.ToLower() == code.ToLower());
     }
 
-    public async Task<ICollection<LanguageCode>> GetLanguageCodesAsync()
+    public async Task<PagedList<LanguageCode>> GetLanguageCodesAsync(
+      LanguageParams languageParams)
     {
-      return await _context.LanguageCodes.ToListAsync();
+      var query = _context.LanguageCodes
+        .AsNoTracking()
+        .AsQueryable();
+
+      query = query.Where(lang => 
+        EF.Functions.Like(lang.Language, $@"%{languageParams.Keyword}%"));
+      
+      query = languageParams.OrderBy switch
+      {
+        "code" => query.OrderBy(lit => lit.Code),
+        _ => query.OrderBy(lit => lit.Language)
+      };
+
+      return await PagedList<LanguageCode>.CreateAsync(
+        query, 
+        languageParams.PageNumber,
+        languageParams.PageSize);
     }
 
     public async Task<Literature> GetLiteratureAsync(int id)
@@ -86,7 +96,9 @@ namespace API.Data.Repositories
         .AsNoTracking()
         .AsQueryable();
 
-      query = query.Where(lit => EF.Functions.Like(lit.Name, $@"%{litParams.Keyword}%"));
+      query = query.Where(lit => 
+        EF.Functions.Like(lit.FullName, $@"%{litParams.Keyword}%") ||
+        EF.Functions.Like(lit.Name, $@"%{litParams.Keyword}%"));
       query = query.Where(lit => EF.Functions.Like(lit.Symbol, $@"%{litParams.Symbol}%"));
       
       query = litParams.OrderBy switch

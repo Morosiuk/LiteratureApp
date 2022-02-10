@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
@@ -20,10 +19,15 @@ namespace API.Controllers
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Literature>>> GetLiteratureAsync([FromQuery]LiteratureParams litParams)
+    public async Task<ActionResult<IEnumerable<Literature>>> GetLiteratureAsync(
+      [FromQuery]LiteratureParams litParams)
     {
       var results = await _litRepo.GetLiteratureAsync(litParams);
-      Response.AddPaginationHeader(results.CurrentPage, results.PageSize, results.TotalCount, results.TotalPages);
+      Response.AddPaginationHeader(
+        results.CurrentPage, 
+        results.PageSize, 
+        results.TotalCount, 
+        results.TotalPages);
 
       return Ok(results);
     }
@@ -74,8 +78,11 @@ namespace API.Controllers
     {
       if (updatedLiterature == null) return BadRequest("No literature provided.");
       if (updatedLiterature.Id <= 0) return BadRequest("Invalid literature.");
-      if (string.IsNullOrWhiteSpace(updatedLiterature.Symbol)) return BadRequest("No literature symbol.");
-      if (string.IsNullOrWhiteSpace(updatedLiterature.Name)) return BadRequest("No literature name.");
+      if (string.IsNullOrWhiteSpace(updatedLiterature.Symbol)) 
+        return BadRequest("No literature symbol.");
+      if (string.IsNullOrWhiteSpace(updatedLiterature.Name)) 
+        return BadRequest("No literature name.");
+
       //Lookup existing code
       var literature = await _litRepo.GetLiteratureAsync(updatedLiterature.Id);
       if (literature == null) return BadRequest("Unable to find literature.");
@@ -97,7 +104,8 @@ namespace API.Controllers
     public async Task<ActionResult> DeleteLiterature(string symbol)
     {
       if (symbol == null) return BadRequest("No literature provided.");
-      if (string.IsNullOrWhiteSpace(symbol)) return BadRequest("No literature symbol provided.");
+      if (string.IsNullOrWhiteSpace(symbol)) 
+        return BadRequest("No literature symbol provided.");
 
       var literature = await _litRepo.GetLiteratureAsync(symbol);
       if (literature == null) return NotFound("Cannot find literature.");
@@ -110,9 +118,16 @@ namespace API.Controllers
     }
 
     [HttpGet("codes")]
-    public async Task<ActionResult<IEnumerable<LanguageCode>>> GetLanguageCodesAsync()
+    public async Task<ActionResult<IEnumerable<LanguageCode>>> GetLanguageCodesAsync(
+      [FromQuery]LanguageParams languageParams)
     {
-      var results = await _litRepo.GetLanguageCodesAsync();
+      var results = await _litRepo.GetLanguageCodesAsync(languageParams);
+      Response.AddPaginationHeader(
+        results.CurrentPage, 
+        results.PageSize, 
+        results.TotalCount, 
+        results.TotalPages);
+
       return Ok(results);
     }
 
@@ -128,9 +143,12 @@ namespace API.Controllers
     public async Task<ActionResult<bool>> AddLanguageCode(LanguageCodeDto languageCode)
     {
       if (languageCode == null) return BadRequest("No language code provided.");
-      if (string.IsNullOrWhiteSpace(languageCode.Language)) return BadRequest("No language provided.");
-      if (string.IsNullOrWhiteSpace(languageCode.Code)) return BadRequest("No code provided.");
-      if (await _litRepo.GetLanguageCodeAsync(languageCode.Code) != null) return BadRequest("Language code already exists.");
+      if (string.IsNullOrWhiteSpace(languageCode.Language)) 
+        return BadRequest("No language provided.");
+      if (string.IsNullOrWhiteSpace(languageCode.Code)) 
+        return BadRequest("No code provided.");
+      if (await _litRepo.GetLanguageCodeAsync(languageCode.Code) != null) 
+        return BadRequest("Language code already exists.");
 
       var createdCode = _litRepo.AddLanguageCode(languageCode);
       var result = await _litRepo.SaveAllAsync();
@@ -140,14 +158,18 @@ namespace API.Controllers
     }
 
     [HttpPut("codes/update")]
-    public async Task<ActionResult> UpdateLanguageCodeAsync(UpdateLanguageCodeDto updatedLanguageCode)
+    public async Task<ActionResult> UpdateLanguageCodeAsync(
+      UpdateLanguageCodeDto updatedLanguageCode)
     {
       if (updatedLanguageCode == null) return BadRequest("No language code provided.");
       if (updatedLanguageCode.Id <= 0) return BadRequest("Invalid language code.");
-      if (string.IsNullOrWhiteSpace(updatedLanguageCode.Language)) return BadRequest("No language provided.");
+      if (string.IsNullOrWhiteSpace(updatedLanguageCode.Language)) 
+        return BadRequest("No language provided.");
+
       //Lookup existing code
       var languageCode = await _litRepo.GetLanguageCodeAsync(updatedLanguageCode.Id);
       if (languageCode == null) return BadRequest("Unable to find relevant language code.");
+      
       //Update values
       languageCode.Language = updatedLanguageCode.Language;
       languageCode.Code = updatedLanguageCode.Code;

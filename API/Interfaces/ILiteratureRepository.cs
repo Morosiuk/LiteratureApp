@@ -19,8 +19,7 @@ namespace API.Interfaces
     LanguageCode AddLanguageCode(LanguageCodeDto code);
     void DeleteLanguageCode(LanguageCode code);
     void UpdateLanguageCode(LanguageCode code);
-    Task<ICollection<LanguageCode>> GetLanguageCodesAsync();
-    Task<ICollection<LanguageCode>> GetLanguageCodesAsync(string language);
+    Task<PagedList<LanguageCode>> GetLanguageCodesAsync(LanguageParams languageParams);
     Task<LanguageCode> GetLanguageCodeAsync(int id);
     Task<LanguageCode> GetLanguageCodeAsync(string code);
     Task<bool> SaveAllAsync();
