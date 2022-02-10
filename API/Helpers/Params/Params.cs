@@ -1,4 +1,4 @@
-namespace API.Helpers
+namespace API.Helpers.Params
 {
     public abstract class Params
     {

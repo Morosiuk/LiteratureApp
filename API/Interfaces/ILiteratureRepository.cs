@@ -1,8 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.Helpers;
+using API.Helpers.Params;
 
 namespace API.Interfaces
 {
@@ -11,11 +12,10 @@ namespace API.Interfaces
     Literature AddLiterature(LiteratureDto literature);
     void DeleteLiterature(Literature literature);
     void UpdateLiterature(Literature literature);
-    Task<ICollection<Literature>> GetLiteratureAsync();
+    Task<PagedList<Literature>> GetLiteratureAsync(LiteratureParams litParams);
     Task<Literature> GetLiteratureAsync(int id);
-    Task<Literature> GetLiteratureBySymbolAsync(string symbol);
-    Task<Literature> GetLiteratureByItemAsync(int itemId);
-    Task<ICollection<Literature>> GetLiteratureAsync(string name);
+    Task<Literature> GetLiteratureAsync(string symbol);
+    Task<Literature> GetLiteratureFromItemAsync(int itemId);
     LanguageCode AddLanguageCode(LanguageCodeDto code);
     void DeleteLanguageCode(LanguageCode code);
     void UpdateLanguageCode(LanguageCode code);

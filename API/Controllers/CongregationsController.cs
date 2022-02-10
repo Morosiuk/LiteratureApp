@@ -2,13 +2,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using API.Helpers;
 using API.Extensions;
 using API.Entities;
 using API.Interfaces;
 using AutoMapper;
 using API.DTOs;
 using System;
+using API.Helpers.Params;
 
 namespace API.Controllers
 {
@@ -28,11 +28,11 @@ namespace API.Controllers
     [AllowAnonymous]
     public async Task<ActionResult<IEnumerable<CongregationDto>>> GetCongregationsAsync([FromQuery]CongParams congParams)
     {
-      var congregations = await _congregationRepo.GetCongregationsAsync(congParams);
-      Response.AddPaginationHeader(congregations.CurrentPage, 
-        congregations.PageSize, congregations.TotalCount, congregations.TotalPages);
+      var results = await _congregationRepo.GetCongregationsAsync(congParams);
+      Response.AddPaginationHeader(results.CurrentPage, 
+        results.PageSize, results.TotalCount, results.TotalPages);
 
-      return Ok(congregations);
+      return Ok(results);
     }
 
     [HttpGet("{id:int}")]

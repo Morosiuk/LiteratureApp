@@ -1,10 +1,9 @@
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
 using API.Extensions;
-using API.Helpers;
+using API.Helpers.Params;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;

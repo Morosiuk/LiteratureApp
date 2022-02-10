@@ -1,4 +1,4 @@
-namespace API.Helpers
+namespace API.Helpers.Params
 {
     public class PublisherParams : Params
     {

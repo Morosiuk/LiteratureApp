@@ -1,8 +1,10 @@
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.Extensions;
+using API.Helpers.Params;
 using API.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,9 +20,11 @@ namespace API.Controllers
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Literature>>> GetLiteratureAsync()
+    public async Task<ActionResult<IEnumerable<Literature>>> GetLiteratureAsync([FromQuery]LiteratureParams litParams)
     {
-      var results = await _litRepo.GetLiteratureAsync();
+      var results = await _litRepo.GetLiteratureAsync(litParams);
+      Response.AddPaginationHeader(results.CurrentPage, results.PageSize, results.TotalCount, results.TotalPages);
+
       return Ok(results);
     }
 
@@ -38,15 +42,14 @@ namespace API.Controllers
       if (symbol == null || string.IsNullOrWhiteSpace(symbol)) 
         return BadRequest("No lookup value provided.");
 
-      return await _litRepo.GetLiteratureBySymbolAsync(symbol);
+      return await _litRepo.GetLiteratureAsync(symbol);
     }
 
     [HttpGet("item/{itemId}")]
     public async Task<ActionResult<Literature>> GetLiteratureFromItemAsync(int itemId)
     {
       if (itemId <= 0) return BadRequest("No Item ID provided.");
-
-      return await _litRepo.GetLiteratureByItemAsync(itemId);
+      return await _litRepo.GetLiteratureFromItemAsync(itemId);
     }
 
     [HttpPost("add")]
@@ -56,7 +59,7 @@ namespace API.Controllers
       if (string.IsNullOrWhiteSpace(literatureDto.Name)) 
         return BadRequest("No literature name provded.");
       
-      if (await _litRepo.GetLiteratureBySymbolAsync(literatureDto.Symbol) != null)
+      if (await _litRepo.GetLiteratureAsync(literatureDto.Symbol) != null)
         return BadRequest("Literature with this symbol already exists.");
 
       var literature = _litRepo.AddLiterature(literatureDto);
@@ -96,7 +99,7 @@ namespace API.Controllers
       if (symbol == null) return BadRequest("No literature provided.");
       if (string.IsNullOrWhiteSpace(symbol)) return BadRequest("No literature symbol provided.");
 
-      var literature = await _litRepo.GetLiteratureBySymbolAsync(symbol);
+      var literature = await _litRepo.GetLiteratureAsync(symbol);
       if (literature == null) return NotFound("Cannot find literature.");
 
       _litRepo.DeleteLiterature(literature);
