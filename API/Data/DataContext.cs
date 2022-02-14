@@ -11,9 +11,11 @@ namespace API.Data
     public DbSet<Role> Roles { get; set; }
     public DbSet<Literature> Literature { get; set; }
     public DbSet<LanguageCode> LanguageCodes { get; set; }
+    public DbSet<Request> Requests { get; set; }
+    public DbSet<RequestItem> RequestItems { get; set; }
     public DataContext(DbContextOptions options) : base(options)
     {
-      
+
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -23,7 +25,7 @@ namespace API.Data
         .IsUnique();
       modelBuilder.Entity<LanguageCode>()
         .HasIndex(i => i.Code)
-        .IsUnique();        
+        .IsUnique();
     }
   }
 }

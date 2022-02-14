@@ -9,7 +9,7 @@ namespace API.Entities
     public int PublisherId { get; set; }
     public Publisher Publisher { get; set; }
     public string Information { get; set; }
-    public DateTime RequestDate { get; set; }
+    public DateTime RequestDate { get; set; } = DateTime.Now;
     public ICollection<RequestItem> Items { get; set; }
 
   }
