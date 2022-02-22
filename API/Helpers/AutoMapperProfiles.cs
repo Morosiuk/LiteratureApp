@@ -53,6 +53,9 @@ namespace API.Helpers
 
         CreateMap<Literature, LiteratureDto>().ReverseMap();
         CreateMap<LanguageCodeDto, LanguageCode>();
+
+        CreateMap<AddRequestDto, Request>().ReverseMap();
+        CreateMap<AddRequestItemDto, RequestItem>().ReverseMap();
     }
 
   }

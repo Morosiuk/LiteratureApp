@@ -18,6 +18,7 @@ namespace API.Extensions
         services.AddScoped<ICongregationRepository, CongregationRepository>();
         services.AddScoped<IPublisherRepository, PublisherRepository>();
         services.AddScoped<ILiteratureRepository, LiteratureRepository>();
+        services.AddScoped<IRequestRepository, RequestRepository>();
         services.AddScoped<LogUserActivity>();
         services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
         services.AddDbContext<DataContext>(opt =>
