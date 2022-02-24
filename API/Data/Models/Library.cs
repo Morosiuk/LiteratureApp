@@ -69,9 +69,33 @@ namespace API.Data.Models
       if (string.IsNullOrWhiteSpace(code)) return null;
       var LibraryItem = new LibraryItem();
 
-      //Regex to extract <LiteratureCode><Edition>-<LanguageCode>
+      //Extract the literature symbol
+      var literatureSymbol = code.Substring(0, code.LastIndexOf('-'));
+      if (literatureSymbol.Contains("."))
+      {
+        //Find edition
+        string editionPattern = @"\d*\.?\d+";
+        Regex rgxEdition = new Regex(editionPattern);
+        Match matchEdition = rgxEdition.Match(literatureSymbol);
+        if (matchEdition.Success)
+        {
+          var edition = matchEdition.Value;
+          var split = edition.Split(".");
+          if (split.Count() >= 1)
+          {
+            var isParsed = int.TryParse(split[0], out int year);
+            if (isParsed) LibraryItem.Year = year;
+            isParsed = int.TryParse(split[1], out int number);
+            if (isParsed) LibraryItem.Number = number;
+          }
+
+          literatureSymbol = Regex.Replace(literatureSymbol, edition, string.Empty);
+        }
+      }
+      if (Literature.ContainsKey(literatureSymbol)) LibraryItem.Literature = Literature[literatureSymbol];
+      
+      //Regex to extract LanguageCode
       string pattern = @"([^-]*)$";  
-      // Create a Regex  
       Regex rg = new Regex(pattern); 
       Match match = rg.Match(code);
       if (match.Success)
