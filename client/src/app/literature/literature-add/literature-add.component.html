@@ -1,29 +1,41 @@
-<form #literatureForm="ngForm" (ngSubmit)="add()" autocomplete="off">
+<form [formGroup]="literatureForm" (ngSubmit)="add()" autocomplete="off">
   <h2 class="text-center text-primary">Add Literature Item</h2>
   <hr>
+  <app-text-input 
+    [formControl]="literatureForm.controls['name']" 
+    [label]="'Name'"></app-text-input>
+  <app-text-input 
+    [formControl]="literatureForm.controls['fullName']" 
+    [label]="'Description'"></app-text-input>
+  <app-text-input 
+    [formControl]="literatureForm.controls['symbol']" 
+    [label]="'Symbol'"></app-text-input>
+  <app-text-input 
+    [formControl]="literatureForm.controls['itemId']" 
+    [label]="'Item ID (Optional)'"></app-text-input>
+  <app-text-input 
+    [formControl]="literatureForm.controls['format']" 
+    [label]="'Format (Optional)'"></app-text-input>
+  <app-text-input 
+    [formControl]="literatureForm.controls['editions']" 
+    [label]="'# Editions per Year (Optional)'"></app-text-input>
+  
+
   <div class="form-group">
-    <input type="text" class="form-control" name="name" 
-      [(ngModel)]="model.name" placeholder="Title">
-  </div>
-  <div class="form-group">
-    <input type="text" class="form-control" name="fullName" 
-      [(ngModel)]="model.fullName" placeholder="Description">
-  </div>
-  <div class="form-group">
-    <input type="text" class="form-control" name="itemId" 
-      [(ngModel)]="model.itemId" placeholder="Item ID">
-  </div>
-  <div class="form-group">
-    <input type="text" class="form-control" name="Symbol" 
-      [(ngModel)]="model.symbol" placeholder="Symbol">
-  </div>
-  <div class="form-group">
-    <input type="text" class="form-control" name="Format" 
-      [(ngModel)]="model.format" placeholder="Format">
+    <input type="text" class="form-control" formControlName="editions" placeholder="# Editions per Year (Optional)" />
+    <div *ngIf="literatureForm.controls['editions'].touched">
+      This represents the number of editions published of this literature each year. For example: Awake! contains 3 edition per year.
+    </div>
   </div>
 
   <div class="form-group text-center">
     <button class="btn btn-success mr-2" type="submit">Add</button>
     <button class="btn btn-default mr-2" (click)="cancel()" type="button">Cancel</button>
   </div>
+
+  <div class="invalid-feedback">
+    Editions: {{literatureForm.controls['editions'].errors | json}}</div>
 </form>
+
+<p>Form value: {{literatureForm.value | json}}</p>
+<p>Form status: {{literatureForm.status | json}}</p>

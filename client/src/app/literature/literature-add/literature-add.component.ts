@@ -1,4 +1,5 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { LiteratureService } from 'src/app/_services/literature.service';
@@ -10,6 +11,8 @@ import { LiteratureService } from 'src/app/_services/literature.service';
 })
 export class LiteratureAddComponent implements OnInit {
   model: any = {};
+  literatureForm: FormGroup;
+  numberRegEx = /^[0-9]*$/;
 
   constructor(
     private litService: LiteratureService, 
@@ -17,6 +20,17 @@ export class LiteratureAddComponent implements OnInit {
     private toastr: ToastrService) { }
 
   ngOnInit(): void {
+    this.initialiseForm();
+  }
+
+  initialiseForm() {
+    this.literatureForm = new FormGroup({
+      name: new FormControl('', [Validators.required, Validators.minLength(4)]),
+      fullName: new FormControl(''),
+      itemId: new FormControl(),
+      symbol: new FormControl('', [Validators.required, Validators.minLength(2)]),
+      editions: new FormControl('', Validators.pattern(this.numberRegEx))
+    });
   }
 
   add() {

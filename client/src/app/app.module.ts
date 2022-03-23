@@ -32,6 +32,7 @@ import { TextInputComponent } from './_forms/text-input/text-input.component';
 import { CongregationCardComponent } from './congregations/congregation-card/congregation-card.component';
 import { CongregationAddComponent } from './congregations/congregation-add/congregation-add.component';
 import { PublisherCreateComponent } from './users/publisher-create/publisher-create.component';
+import { LiteratureCardComponent } from './literature/literature-card/literature-card.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { PublisherCreateComponent } from './users/publisher-create/publisher-cre
     CongregationListComponent,
     CongregationCardComponent,
     CongregationAddComponent,
-    PublisherCreateComponent
+    PublisherCreateComponent,
+    LiteratureCardComponent
   ],
   imports: [
     BrowserModule,
