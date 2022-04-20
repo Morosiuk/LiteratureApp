@@ -9,7 +9,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
-import { LiteratureComponent } from './literature/literature/literature.component';
 import { LiteratureItemComponent } from './literature/literature-item/literature-item.component';
 import { RequestItemComponent } from './requests/request-item/request-item.component';
 import { CongregationListComponent } from './congregations/congregation-list/congregation-list.component';
@@ -33,6 +32,7 @@ import { CongregationCardComponent } from './congregations/congregation-card/con
 import { CongregationAddComponent } from './congregations/congregation-add/congregation-add.component';
 import { PublisherCreateComponent } from './users/publisher-create/publisher-create.component';
 import { LiteratureCardComponent } from './literature/literature-card/literature-card.component';
+import { LiteratureListComponent } from './literature/literature-list/literature-list.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +40,6 @@ import { LiteratureCardComponent } from './literature/literature-card/literature
     NavComponent,
     HomeComponent,
     RegisterComponent,
-    LiteratureComponent,
     LiteratureItemComponent,
     RequestItemComponent,
     CongregationListComponent,
@@ -61,7 +60,8 @@ import { LiteratureCardComponent } from './literature/literature-card/literature
     CongregationCardComponent,
     CongregationAddComponent,
     PublisherCreateComponent,
-    LiteratureCardComponent
+    LiteratureCardComponent,
+    LiteratureListComponent
   ],
   imports: [
     BrowserModule,

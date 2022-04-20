@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
-import { CongParams } from '../_models/congParams';
+import { CongParams } from '../_models/Params/congParams';
 import { CongregationCard } from '../_models/congregationCard';
 import { AccountService } from '../_services/account.service';
 import { CongregationsService } from '../_services/congregations.service';

@@ -1,0 +1,65 @@
+<div class="container mt-3">
+  <form #filterForm="ngForm" class="form-inline mb-3" (ngSubmit)="loadLiterature()" autocomplete="off">
+
+    <div class="form-group">
+      <label>Literature:</label>
+      <!-- <select 
+        [(ngModel)]="userParams.congregation" 
+        name="congregation" 
+        style="float: right" 
+        class="form-control ml-1"
+        (click)="loadUsers()">
+        <option [value]="0">All</option>
+        <option *ngFor="let cong of congregations" [value]="cong.id" >
+          {{cong.name}}
+        </option>
+      </select> -->
+    </div>
+
+    <div class="col">
+      
+      <!-- <div class="btn-group float-right">
+        <label class="label mr-2">Sort By:</label>
+        <button type="button"
+          class="btn btn-primary" 
+          name="orderBy" 
+          [(ngModel)]="userParams.orderBy"
+          (click)="loadUsers()"
+          btnRadio="firstname">Firstname</button>
+        <button type="button"
+          class="btn btn-primary" 
+          name="orderBy" 
+          [(ngModel)]="userParams.orderBy"
+          (click)="loadUsers()"
+          btnRadio="surname">Surname</button>
+        <button type="button"
+          class="btn btn-primary" 
+          name="orderBy" 
+          [(ngModel)]="userParams.orderBy"
+          (click)="loadUsers()"
+          btnRadio="lastActive">Last Active</button>
+        
+      </div> -->
+    </div>
+  </form>
+</div>
+
+<div class="row">
+  <div *ngFor="let lit of literature" class="col-2">
+    <app-literature-card [literature]="lit"></app-literature-card>
+  </div>
+</div>
+
+<div class="d-flex justify-content-center" *ngIf="pagination">
+  <pagination
+    [boundaryLinks]="true"
+    [totalItems]="pagination.totalItems"
+    [itemsPerPage]="pagination.itemsPerPage"
+    [(ngModel)]="pagination.currentPage"
+    (pageChanged)="pageChanged($event)"
+    previousText="&lsaquo;"
+    nextText="&rsaquo;"
+    firstText="&laquo;"
+    lastText="&raquo;">
+  </pagination>
+</div>

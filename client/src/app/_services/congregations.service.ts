@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { CongParams } from '../_models/congParams';
+import { CongParams } from '../_models/Params/congParams';
 import { Congregation } from '../_models/congregation';
 import { CongregationCard } from '../_models/congregationCard';
 import { User } from '../_models/user';

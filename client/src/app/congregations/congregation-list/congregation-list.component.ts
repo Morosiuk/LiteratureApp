@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CongParams } from 'src/app/_models/congParams';
+import { CongParams } from 'src/app/_models/Params/congParams';
 import { CongregationCard } from 'src/app/_models/congregationCard';
 import { Pagination } from 'src/app/_models/pagination';
 import { CongregationsService } from 'src/app/_services/congregations.service';

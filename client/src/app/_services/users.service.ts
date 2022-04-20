@@ -5,7 +5,7 @@ import { map, take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { PaginatedResult } from '../_models/pagination';
 import { User } from '../_models/user';
-import { UserParams } from '../_models/userParams';
+import { UserParams } from '../_models/Params/userParams';
 import { AccountService } from './account.service';
 import { PaginatedService } from './paginated.service';
 

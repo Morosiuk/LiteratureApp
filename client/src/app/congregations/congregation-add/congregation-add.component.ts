@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { CongParams } from 'src/app/_models/congParams';
+import { CongParams } from 'src/app/_models/Params/congParams';
 import { CongregationCard } from 'src/app/_models/congregationCard';
 import { CongregationsService } from 'src/app/_services/congregations.service';
 

@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { take } from 'rxjs/operators';
-import { CongParams } from 'src/app/_models/congParams';
+import { CongParams } from 'src/app/_models/Params/congParams';
 import { Congregation } from 'src/app/_models/congregation';
 import { Pagination } from 'src/app/_models/pagination';
 import { User } from 'src/app/_models/user';
-import { UserParams } from 'src/app/_models/userParams';
+import { UserParams } from 'src/app/_models/Params/userParams';
 import { CongregationsService } from 'src/app/_services/congregations.service';
 import { UsersService } from 'src/app/_services/users.service';
 
@@ -36,7 +35,7 @@ export class UserListComponent implements OnInit {
   loadCongregations() {
     this.congregationService.getCongregations(this.congParams).subscribe(response => {
       this.congregations = response.result;
-    })
+    });
   }
 
   loadUsers() {

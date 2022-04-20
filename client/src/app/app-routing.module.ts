@@ -8,7 +8,6 @@ import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
 
 import { LiteratureItemComponent } from './literature/literature-item/literature-item.component';
-import { LiteratureComponent } from './literature/literature/literature.component';
 import { LiteratureAddComponent } from './literature/literature-add/literature-add.component';
 import { RequestItemComponent } from './requests/request-item/request-item.component';
 import { RequestComponent } from './requests/request/request.component';
@@ -19,6 +18,7 @@ import { UserListComponent } from './users/user-list/user-list.component';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
 import { CongregationListComponent } from './congregations/congregation-list/congregation-list.component';
 import { CongregationAddComponent } from './congregations/congregation-add/congregation-add.component';
+import { LiteratureListComponent } from './literature/literature-list/literature-list.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -27,7 +27,7 @@ const routes: Routes = [
     runGuardsAndResolvers: 'always',
     canActivate: [AuthGuard],
     children: [
-      {path: 'literature', component: LiteratureComponent},
+      {path: 'literature', component: LiteratureListComponent},
       {path: 'literature/add', component: LiteratureAddComponent},
       {path: 'literature/:id', component: LiteratureItemComponent},
       {path: 'requests', component: RequestComponent},

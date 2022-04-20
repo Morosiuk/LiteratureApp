@@ -1,17 +1,26 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { Literature } from '../_models/literature';
+import { LitParams } from '../_models/Params/litParams';
+import { PaginatedService } from './paginated.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LiteratureService {
+export class LiteratureService extends PaginatedService {
   baseUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(http: HttpClient) { 
+    super(http);
+  }
 
-  getLiterature() {
-    return this.http.get(this.baseUrl + 'literature');
+  getLiterature(litParams: LitParams) {
+    let params = this.getPaginationHeaders(litParams.pageNumber, litParams.pageSize);
+    params = params.append('orderBy', litParams.orderBy);
+    params = params.append('keyword', litParams.keyword);
+
+    return this.getPaginatedResult<Literature[]>(this.baseUrl + 'literature', params);
   }
 
   addLiterature(model: any) {
